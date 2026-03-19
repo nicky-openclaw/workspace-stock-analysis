@@ -1,72 +1,70 @@
 {
   "date": "20260319",
-  "total_images": 1,
-  "total_recognized": 16,
-  "unique_count": 16,
+  "framework": "qdk",
   "stocks": [
     {
       "code": "000968",
-      "name": ""
+      "name": "蓝焰控股"
     },
     {
       "code": "001896",
-      "name": ""
+      "name": "豫能控股"
     },
     {
       "code": "002207",
-      "name": ""
+      "name": "准油股份"
     },
     {
       "code": "300164",
-      "name": ""
+      "name": "通源石油"
     },
     {
       "code": "300418",
-      "name": ""
+      "name": "昆仑万维"
     },
     {
       "code": "600131",
-      "name": ""
+      "name": "国网信通"
     },
     {
       "code": "600256",
-      "name": ""
+      "name": "广汇能源"
     },
     {
       "code": "600759",
-      "name": ""
+      "name": "洲际油气"
     },
     {
       "code": "600979",
-      "name": ""
+      "name": "广安爱众"
     },
     {
       "code": "601015",
-      "name": ""
+      "name": "陕西黑猫"
     },
     {
       "code": "601857",
-      "name": ""
+      "name": "中国石油"
     },
     {
       "code": "603619",
-      "name": ""
+      "name": "中曼石油"
     },
     {
       "code": "688268",
-      "name": ""
+      "name": "华特气体"
     },
     {
       "code": "688390",
-      "name": ""
+      "name": "固德威"
     },
     {
       "code": "920010",
-      "name": ""
+      "name": "凯添燃气"
     },
     {
       "code": "920158",
-      "name": ""
+      "name": "长江能科"
     }
   ]
 }

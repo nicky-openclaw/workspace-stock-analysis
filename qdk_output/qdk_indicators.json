@@ -6,7 +6,7 @@
   "stocks": [
     {
       "code": "000968",
-      "name": "",
+      "name": "蓝焰控股",
       "today_close": 9.81,
       "yesterday_close": 8.92,
       "change_pct": 9.98,
@@ -43,7 +43,7 @@
     },
     {
       "code": "001896",
-      "name": "",
+      "name": "豫能控股",
       "today_close": 14.9,
       "yesterday_close": 14.22,
       "change_pct": 4.78,
@@ -80,7 +80,7 @@
     },
     {
       "code": "002207",
-      "name": "",
+      "name": "准油股份",
       "today_close": 11.22,
       "yesterday_close": 10.67,
       "change_pct": 5.15,
@@ -117,7 +117,7 @@
     },
     {
       "code": "300164",
-      "name": "",
+      "name": "通源石油",
       "today_close": 20.45,
       "yesterday_close": 18.81,
       "change_pct": 8.72,
@@ -154,7 +154,7 @@
     },
     {
       "code": "300418",
-      "name": "",
+      "name": "昆仑万维",
       "today_close": 54.88,
       "yesterday_close": 50.14,
       "change_pct": 9.45,
@@ -191,7 +191,7 @@
     },
     {
       "code": "600131",
-      "name": "",
+      "name": "国网信通",
       "today_close": 21.78,
       "yesterday_close": 20.28,
       "change_pct": 7.4,
@@ -217,7 +217,7 @@
       "white_rising": true,
       "yellow_rising": true,
       "white_rising_7d": true,
-      "yellow_rising_7d": true,
+      "yellow_rising_7d": false,
       "golden_cross_recent": false,
       "white_slope_60": 0.0813,
       "yellow_slope_60": NaN,
@@ -228,7 +228,7 @@
     },
     {
       "code": "600256",
-      "name": "",
+      "name": "广汇能源",
       "today_close": 7.12,
       "yesterday_close": 6.79,
       "change_pct": 4.86,
@@ -265,7 +265,7 @@
     },
     {
       "code": "600759",
-      "name": "",
+      "name": "洲际油气",
       "today_close": 7.18,
       "yesterday_close": 6.65,
       "change_pct": 7.97,
@@ -302,7 +302,7 @@
     },
     {
       "code": "600979",
-      "name": "",
+      "name": "广安爱众",
       "today_close": 5.74,
       "yesterday_close": 5.22,
       "change_pct": 9.96,
@@ -339,7 +339,7 @@
     },
     {
       "code": "601015",
-      "name": "",
+      "name": "陕西黑猫",
       "today_close": 5.14,
       "yesterday_close": 4.67,
       "change_pct": 10.06,
@@ -376,7 +376,7 @@
     },
     {
       "code": "601857",
-      "name": "",
+      "name": "中国石油",
       "today_close": 12.48,
       "yesterday_close": 11.86,
       "change_pct": 5.23,
@@ -413,7 +413,7 @@
     },
     {
       "code": "603619",
-      "name": "",
+      "name": "中曼石油",
       "today_close": 36.3,
       "yesterday_close": 34.62,
       "change_pct": 4.85,
@@ -450,7 +450,7 @@
     },
     {
       "code": "688268",
-      "name": "",
+      "name": "华特气体",
       "today_close": 82.77,
       "yesterday_close": 71.23,
       "change_pct": 16.2,
@@ -487,7 +487,7 @@
     },
     {
       "code": "688390",
-      "name": "",
+      "name": "固德威",
       "today_close": 97.1,
       "yesterday_close": 92.97,
       "change_pct": 4.44,
