@@ -137,6 +137,21 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 - ❌ 在旧文档上update（总是新建）
 - ❌ 表格单元格内使用内嵌格式（加粗/斜体等）
 
+**选股完成后的文件管理**：
+1. `memory/patrol/YYYY-MM-DD/` 目录（选股任务开始时自动确保存在）
+2. 截图保存到 `memory/patrol/YYYY-MM-DD/screenshots/`
+3. 脚本输出的 `*_stocks.json` 和 `*_scores.json` 保留在 `memory/patrol/YYYY-MM-DD/`（由脚本自动写入）
+4. 飞书文档创建后，将报告正文保存到 `memory/patrol/YYYY-MM-DD/[框架]_report.md`
+5. 选股任务全部完成后 → **删除 screenshots/ 目录**（截图用完即删）
+6. 最终目录结构：
+   ```
+   memory/patrol/YYYY-MM-DD/
+   ├── [框架]_report.md       ← 永久报告
+   ├── [框架]_scores.json    ← 永久评分数据
+   ├── [框架]_stocks.json    ← 永久股票列表
+   └── screenshots/           ← 临时（选股完成后删除）
+   ```
+
 ## 🛠️ 脚本索引
 
 | 脚本 | 用途 | 调用方式 |
