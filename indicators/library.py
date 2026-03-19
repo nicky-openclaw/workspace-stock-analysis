@@ -421,8 +421,8 @@ def check_zhuantxing_sell(df):
     }
 
 # ============ 知行多空线指标 ============
-def calc_zhixing_duokong(df, m1=14, m2=28, m3==114):
-   57, m4 """
+def calc_zhixing_duokong(df, m1=14, m2=28, m3=57, m4=114):
+    """
     知行多空线
     M1:=14; M2:=28; M3:=57; M4:=114;
     知行多空线:=(MA(CLOSE,M1)+MA(CLOSE,M2)+MA(CLOSE,M3)+MA(CLOSE,M4))/4;

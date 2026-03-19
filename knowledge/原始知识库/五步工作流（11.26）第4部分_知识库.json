@@ -1,0 +1,52 @@
+{
+  "series_name": "五步工作流",
+  "part": 4,
+  "core_definition": "量比补充+MACD判断波段底部+市场分析",
+  "broadcast_date": "2024年11月26日",
+  "key_concepts": [
+    {
+      "concept": "量比补充规则",
+      "content": "通达信量比10=东财7-8，各软件算法不同",
+      "detail": "根据软件调整量比阈值"
+    },
+    {
+      "concept": "MACD判断底部",
+      "content": "MACD从零轴上方下穿到零轴下方打到负值区间形成底部",
+      "detail": "简单记：MACD到负5点左右基本是波段底部"
+    },
+    {
+      "concept": "特殊量比形态",
+      "content": "中高量比大幅低开-2%以上，可能是游资洗盘",
+      "detail": "观察每次加速下杀时的成交量峰值，那是游资在割肉"
+    },
+    {
+      "concept": "当前市场判断",
+      "content": "活跃市值在中间位置，MACD在-3.88，需二次探底",
+      "detail": "周四周五可能再调整，但幅度有限，不宜过度恐慌"
+    }
+  ],
+  "stocks_mentioned": [],
+  "rules_extracted": [
+    {
+      "rule": "MACD波段底部判断",
+      "trigger": "MACD从零轴上方下穿到零轴下方",
+      "action": "打到负5点左右是波段底部，可考虑抄底",
+      "category": "技术指标"
+    },
+    {
+      "rule": "软件量比换算",
+      "trigger": "使用不同行情软件",
+      "action": "通达信量比减1-3等于东财量比",
+      "category": "量比技巧"
+    }
+  ],
+  "key_points": [
+    "MACD下穿零轴到负值区间是波段底部信号",
+    "当前MACD约-3.88，处于相对底部区域",
+    "量比各软件算法不同，需自己测试调整",
+    "当前市场建议紧一点，等待二次探底机会",
+    "不要在单底位置判断见底，需要双底确认"
+  ],
+  "has_teaching_value": true,
+  "teaching_summary": "补充量比使用细节和MACD判断波段底部的方法，并对当时市场进行分析"
+}
