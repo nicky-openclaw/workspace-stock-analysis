@@ -11,10 +11,20 @@
 | 场景 | 查什么文件 |
 |------|-------------|
 | 任何任务开始 | AGENTS.md（Rule 1） |
-| 选股任务 | frameworks/qdk_framework_v4.md<br/>frameworks/ztx_framework_v3.md<br/>frameworks/b1_framework_v3.md |
-| 复盘任务 | memory/patrol/YYYY-MM-DD.md |
+| 选股任务 | frameworks/qdk_framework_v4.md（v4.5）<br/>frameworks/ztx_framework_v3.md（v3.3）<br/>frameworks/b1_framework_v3.md（v3.3） |
+| 复盘任务 | memory/patrol/YYYY-MM-DD/（统一目录） |
 | 遇到问题 | memory_recall + memory/pitfalls/ |
 | 查视频知识 | knowledge/总索引.md |
+
+### patrol/ 目录结构（统一格式）
+```
+memory/patrol/YYYY-MM-DD/
+├── market.md              ← 盘面分析（cron输出）
+├── [框架]_report.md       ← 选股报告
+├── [框架]_stocks.json     ← 选股列表
+├── [框架]_scores.json    ← 评分结果
+└── screenshots/           ← 截图（选股后清理）
+```
 
 ---
 

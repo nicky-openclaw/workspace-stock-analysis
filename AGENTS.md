@@ -84,7 +84,7 @@
 
 **Step 1: 识图**
 - 用 `image` 工具识别截图中的股票代码和名称
-- 复制截图到 `memory/patrol/YYYY-MM-DD/` 目录
+- 复制截图到 `memory/patrol/YYYY-MM-DD/screenshots/` 目录
 
 **Step 2: 写入股票列表**
 - 写入对应框架的 stocks.json（含今日日期）
@@ -172,10 +172,13 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 **触发时机**：每个交易日 15:30 收盘后
 
 **执行步骤**：
-1. ✅ 读取 `patrol/前一交易日/` 目录下的选股报告（启动K + 砖型图 + B1）
+1. ✅ 读取 `memory/patrol/前一交易日/` 目录下的选股报告：
+   - 启动K：`memory/patrol/YYYY-MM-DD/qdk_scores.json`
+   - 砖型图：`memory/patrol/YYYY-MM-DD/ztx_scores.json`
+   - B1：`memory/patrol/YYYY-MM-DD/b1_scores.json`
 2. ✅ 用 **QVeris** 批量获取所有选股今日收盘价和涨跌幅（禁止逐个浏览器查询）
 3. ✅ 对每只股票进行归因分析（见 frameworks/review_sop.md）
-4. ✅ 生成复盘报告保存到 `docs/选股复盘_YYYYMMDD.md`
+4. ✅ 生成复盘报告保存到 `memory/patrol/YYYY-MM-DD/market_review.md`
 
 **归因分析要素**：
 - 今日开盘方式（高开/平开/低开）
