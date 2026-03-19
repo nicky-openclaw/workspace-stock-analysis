@@ -20,11 +20,13 @@
 
 ## 框架文件索引
 
-| 框架 | 文件 |
-|------|------|
-| 启动K | frameworks/qdk_framework_v4.md |
-| 砖型图 | frameworks/ztx_framework_v3.md |
-| B1选股 | frameworks/b1_framework_v3.md |
+| 框架 | 文件 | 版本 |
+|------|------|------|
+| 启动K | frameworks/qdk_framework_v4.md | **v4.5（2026-03-19）** |
+| 砖型图 | frameworks/ztx_framework_v3.md | v3 |
+| B1选股 | frameworks/b1_framework_v3.md | v3 |
+
+> ⚠️ 执行选股前必须读取对应框架文件，以框架文件版本号为准。AGENTS.md为执行规范总则，框架文件为详细手册，两者须保持一致。
 
 ---
 

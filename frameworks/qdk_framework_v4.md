@@ -1,7 +1,7 @@
-# 启动K框架 SOP v4.4
+# 启动K框架 SOP v4.5
 
-> 更新日期：2026-03-17
-> 版本：v4.4（新增板块数据Browser备用方案）
+> 更新日期：2026-03-19
+> 版本：v4.5（统一板块数据获取流程，对齐AGENTS.md）
 
 ---
 
@@ -40,11 +40,21 @@
 4. **指标计算**：qdk_step3_calc.py
 5. **综合评分**：qdk_step4_score.py
 6. **板块效应分析**：
-   - 运行 `python3 scripts/qdk_sector_analysis_v3.py` 获取个股所属板块和资金流
-   - **【重要】API失败时直接切换 Browser 补齐数据**：
+   - 运行 `python3 scripts/sector_analysis_v4.py --framework qdk` 获取个股所属板块和资金流
+   - **数据获取优先级（v4.5）：**
+     1. 腾讯API → 个股涨跌幅
+     2. **eastmoney_financial_data skill** → 行业+板块涨跌+主力净额
+     3. agent-browser → 补齐行业（备用）
+     4. QVeris → 保底
+
+   **⚠️ Step 6.1（强制检查点）：验证板块数据**
+   - 板块分析完成后，必须读取 `qdk_output/sector_analysis.json`
+   - 检查每只股票的 `sector_change_pct` 字段是否非空
+   - 若字段为空（API解析失败），立即用 agent-browser 打开东方财富页面手动获取：
      - 打开 https://data.eastmoney.com/bkzj/hy.html 查询行业资金流
-     - 或打开个股页面 https://quote.eastmoney.com/szXXXXXX.html 查询所属板块
-   - 手动补充到 sector_analysis.json
+     - 或打开个股详情页 https://quote.eastmoney.com/szXXXXXX.html 查询所属板块
+   - **板块数据未验证通过之前，禁止进入第7步**
+
 7. **输出报告**：按格式输出（TOP5）
 8. **清理截图**：删除 patrol 目录图片
 
@@ -90,13 +100,14 @@
 | 板块主力净流入 | 金额 |
 | 板块助攻 | 强/中/弱/无 |
 
-**板块数据查询优先级：**
-1. 行业资金流（东方财富 > 数据中心 > 行业资金流）
-2. 概念资金流（同上 > 概念资金流）
-3. 地域板块资金流
+**板块数据查询优先级（与执行流程 Step6 一致）：**
+1. 腾讯API → 个股涨跌幅
+2. **eastmoney_financial_data skill** → 行业+板块涨跌+主力净额
+3. agent-browser → 补齐行业（备用）
+4. QVeris → 保底
 
 **【关键】API失败时的备用方案：**
-- 当东方财富API返回空数据时，**直接切换 agent-browser**
+- 当 eastmoney_financial_data skill 返回空数据时，**直接切换 agent-browser**
 - 浏览器打开 https://data.eastmoney.com/bkzj/hy.html 可获取今日板块资金流向
 - 浏览器打开个股详情页可获取所属板块信息
 - 无需等待API修复，浏览器方案更可靠
@@ -109,12 +120,21 @@
 附：当日热点板块/资金流入前5
 
 ### 5. 明日交易决策 Checklist
+
 | 检查项 |
 |--------|
 | 白线>黄线 |
 | 竞价量比>2 |
 | 板块效应 |
 | 止损位(-7%) |
+
+### 6. 未入选但值得关注（参考）
+
+| 代码 | 名称 | 今日涨幅 | 关注理由 |
+|------|------|---------|---------|
+| ××× | ××× | ±X% | 板块联动/超跌反弹/待确认信号 |
+
+> 格式要求：仅列有参考价值的未入选股，不加多余描述。
 
 ---
 
