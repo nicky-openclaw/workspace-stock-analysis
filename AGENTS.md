@@ -98,6 +98,8 @@ python3 scripts/run_stock_selection.py [qdk|ztx|b1]
 ```
 脚本自动执行：step2_fetch → step3_calc → step4_score → 保存patrol
 
+> ⚠️ 【重要】脚本运行完后，**必须读取输出文件**（`*_scores.json` / `*_kline.json`）获取完整数据，禁止只看终端输出。
+
 **Step 4: 板块效应分析**
 ```bash
 python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
