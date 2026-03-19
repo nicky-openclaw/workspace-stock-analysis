@@ -12,19 +12,29 @@
 |------|-------------|
 | 任何任务开始 | AGENTS.md（Rule 1） |
 | 选股任务 | frameworks/qdk_framework_v4.md（v4.5）<br/>frameworks/ztx_framework_v3.md（v3.3）<br/>frameworks/b1_framework_v3.md（v3.3） |
-| 复盘任务 | memory/patrol/YYYY-MM-DD/（统一目录） |
+| 复盘任务 | memory/patrol/market/YYYY-MM-DD.md（盘面分析）<br/>memory/patrol/YYYY-MM-DD/（选股记录） |
 | 遇到问题 | memory_recall + memory/pitfalls/ |
 | 查视频知识 | knowledge/总索引.md |
 
 ### patrol/ 目录结构（统一格式）
+
 ```
-memory/patrol/YYYY-MM-DD/
-├── market.md              ← 盘面分析（cron输出）
-├── [框架]_report.md       ← 选股报告
-├── [框架]_stocks.json     ← 选股列表
-├── [框架]_scores.json    ← 评分结果
-└── screenshots/           ← 截图（选股后清理）
+memory/patrol/
+├── market/                    ← 盘面分析（独立目录）
+│   ├── 2026-03-17.md
+│   ├── 2026-03-18.md
+│   └── 2026-03-19.md
+└── YYYY-MM-DD/               ← 选股记录（每个交易日一个子目录）
+    ├── [框架]_report.md       ← 选股报告
+    ├── [框架]_scores.json    ← 评分结果
+    ├── [框架]_stocks.json    ← 选股列表
+    └── screenshots/           ← 截图（选股后清理）
 ```
+
+**说明**：
+- `memory/patrol/market/` = cron每日盘面分析输出
+- `memory/patrol/YYYY-MM-DD/` = 手动选股/复盘的记录文件
+- screenshots/ 内的截图在选股完成后删除，永久报告只保留md和json
 
 ---
 

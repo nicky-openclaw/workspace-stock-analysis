@@ -178,7 +178,7 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
    - B1：`memory/patrol/YYYY-MM-DD/b1_scores.json`
 2. ✅ 用 **QVeris** 批量获取所有选股今日收盘价和涨跌幅（禁止逐个浏览器查询）
 3. ✅ 对每只股票进行归因分析（见 frameworks/review_sop.md）
-4. ✅ 生成复盘报告保存到 `memory/patrol/YYYY-MM-DD/market_review.md`
+4. ✅ 生成复盘报告保存到 `memory/patrol/YYYY-MM-DD/market.md`（选股结果）或 `memory/patrol/market/YYYY-MM-DD.md`（盘面分析）
 
 **归因分析要素**：
 - 今日开盘方式（高开/平开/低开）
