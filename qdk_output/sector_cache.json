@@ -1,1 +1,21 @@
-{}
+{
+  "603165.SH": {
+    "industry": "轻工制造",
+    "sector_change_pct": "-2.11%",
+    "sector_main_inflow": "-937668592.0"
+  },
+  "605099.SH": {
+    "industry": "轻工制造",
+    "sector_change_pct": "-2.11%",
+    "sector_main_inflow": "-937668592.0"
+  },
+  "300827.SH": {
+    "industry": "资金流向"
+  },
+  "688680.SH": {
+    "industry": "资金流向"
+  },
+  "301268.SH": {
+    "industry": "资金流向"
+  }
+}

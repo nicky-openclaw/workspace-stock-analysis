@@ -70,10 +70,10 @@ def get_industry_browser(code: str) -> str:
     return ""
 
 
-def get_sector_data_eastmoney(industry: str) -> dict:
-    """用eastmoney_financial_data获取板块涨跌幅和主力净额"""
+def get_industry_from_eastmoney(stock_code: str, stock_name: str) -> dict:
+    """用eastmoney_financial_data获取个股所属行业（申万行业）"""
     try:
-        query = f"{industry}板块今日涨跌幅主力净流入"
+        query = f"{stock_name}({stock_code})所属申万行业指数名称"
         payload = json.dumps({"toolQuery": query}).encode()
         req = urllib.request.Request(
             EASTMONEY_DATA_URL,
@@ -90,10 +90,60 @@ def get_sector_data_eastmoney(industry: str) -> dict:
         if not tables:
             return {}
         t = tables[0]
-        table = t.get('table', {})
+        raw = t.get('rawTable', {}) or t.get('table', {})
+        # raw = {"100000000021213": ["轻工制造(申万)"], "headName": [" "]}
+        # 找到第一个非headName的key
+        industry = ""
+        for k, v in raw.items():
+            if k != 'headName' and isinstance(v, list) and v:
+                industry = v[0].replace('(申万)', '').strip()
+                break
+        return {'industry': industry}
+    except Exception as e:
+        return {}
+
+
+def get_sector_data_eastmoney(stock_code: str, stock_name: str) -> dict:
+    """用eastmoney_financial_data获取个股所属行业板块涨跌幅和主力净额"""
+    try:
+        # 先获取行业
+        ind_result = get_industry_from_eastmoney(stock_code, stock_name)
+        industry = ind_result.get('industry', '')
+        if not industry:
+            return {}
+        
+        # 再用行业名查板块涨跌幅和主力净额
+        query = f"{industry}行业今日涨跌幅主力净流入"
+        payload = json.dumps({"toolQuery": query}).encode()
+        req = urllib.request.Request(
+            EASTMONEY_DATA_URL,
+            data=payload,
+            headers={
+                'Content-Type': 'application/json',
+                'apikey': EASTMONEY_APIKEY
+            },
+            method='POST'
+        )
+        resp = urllib.request.urlopen(req, timeout=15)
+        d = json.loads(resp.read())
+        tables = d.get('data',{}).get('data',{}).get('searchDataResultDTO',{}).get('dataTableDTOList',[])
+        if not tables:
+            return {'industry': industry}
+        
+        t = tables[0]
+        raw = t.get('rawTable', {}) or t.get('table', {})
+        f3 = raw.get('f3', [None])[0] if isinstance(raw.get('f3'), list) else raw.get('f3')
+        f62 = raw.get('f62', [None])[0] if isinstance(raw.get('f62'), list) else raw.get('f62')
+        # f3可能是 "-1.59" 或 "-1.59%" 格式
+        if f3 and not str(f3).endswith('%'):
+            try:
+                f3 = f"{float(f3):.2f}%"
+            except:
+                pass
         return {
-            'sector_change_pct': table.get('f3', [None])[0],
-            'sector_main_inflow': table.get('f62', [None])[0],
+            'industry': industry,
+            'sector_change_pct': f3,
+            'sector_main_inflow': f62,
         }
     except Exception as e:
         return {}
@@ -172,23 +222,22 @@ def analyze(framework: str, top_n: int = 10):
     em_count = 0
     for s in all_stocks:
         code, name = s["code"], s["name"]
-        # 先用eastmoney_financial_data获取行业归属
+        # 获取行业归属
         if code not in sector_cache or not sector_cache.get(code, {}).get("industry"):
-            result = get_sector_data_eastmoney(f"{name}所属行业板块涨跌幅主力净流入")
+            result = get_industry_from_eastmoney(code, name)
             if result.get('industry'):
                 sector_cache[code] = sector_cache.get(code, {})
                 sector_cache[code].update(result)
                 em_count += 1
-                print(f"  ✅ {name}: {result.get('industry','')}, 涨跌={result.get('sector_change_pct','N/A')}, 主力={result.get('sector_main_inflow','N/A')}")
-                continue
-        # 已有行业，获取板块数据
-        industry = sector_cache.get(code, {}).get("industry", "")
-        if industry and not sector_cache.get(code, {}).get("sector_change_pct"):
-            result = get_sector_data_eastmoney(f"{industry}板块今日涨跌幅主力净流入")
+                print(f"  ✅ {name}: 行业={result.get('industry','')}")
+        # 获取板块涨跌幅和主力净额
+        if not sector_cache.get(code, {}).get("sector_change_pct"):
+            result = get_sector_data_eastmoney(code, name)
             if result:
+                sector_cache[code] = sector_cache.get(code, {})
                 sector_cache[code].update(result)
                 em_count += 1
-                print(f"  ✅ {industry}: 涨跌={result.get('sector_change_pct','N/A')}, 主力={result.get('sector_main_inflow','N/A')}")
+                print(f"  ✅ {name}: 涨跌={result.get('sector_change_pct','N/A')}, 主力={result.get('sector_main_inflow','N/A')}")
     print(f"  共获取 {em_count} 条数据（消耗约{em_count}次额度）")
 
     # Step 3: agent-browser补齐行业归属（eastmoney_financial_data失败时）

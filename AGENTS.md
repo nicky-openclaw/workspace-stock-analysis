@@ -1,5 +1,18 @@
 # AGENTS.md - 股票分析 Agent 执行规范
 
+## 🎯 Rule 0: 任务开始前确认清单（铁律，每次任务必须执行）
+
+**收到任何任务后，开始执行前必须确认以下所有事项：**
+
+- [ ] **已读取 AGENTS.md 所有 Rule**，特别是本次任务的专属 Rule
+- [ ] 已确认使用 **minimax-understand-image skill** 做识图（禁止用 `image` 工具）
+- [ ] 已确认报告结构遵循 **SOP 框架**（禁止自行发挥结构）
+- [ ] 如有任何疑问，**先停下来**汇报用户，不得凭记忆猜测执行
+
+**如果跳过了上述确认直接开始执行，属于违规行为。**
+
+---
+
 ## 🎯 Rule 1: 任务执行前置流程（铁律）
 
 **收到任何任务后，必须按顺序执行：**
@@ -8,7 +21,8 @@
 2. ✅ 读取 memory/ 相关文件
 3. ✅ 读取 AGENTS.md（检查任务规则）
 4. ✅ 读取 frameworks/ 框架文件
-5. ✅ 开始执行
+5. ✅ **完成 Rule 0 确认清单的全部事项**
+6. ✅ 开始执行
 
 **禁止**：
 - ❌ 不检索就执行
@@ -133,23 +147,41 @@
 
 ### 执行步骤（严格按顺序）
 
-**Step 1: 识图**
-- 用 `image` 工具识别截图中的股票代码和名称
-- 复制截图到 `memory/patrol/YYYY-MM-DD/screenshots/` 目录
+**Step 0: 截图命名与保存（收到截图后立即执行）**
+1. 根据用户发送的关键词判断框架类型：
+   - "启动K" → 框架 = `qdk`
+   - "砖型图" / "砖图" → 框架 = `ztx`
+   - "B1" / "b1" → 框架 = `b1`
+2. 获取今日日期格式：`YYYY-MM-DD`
+3. 创建目录：`memory/patrol/<今日日期>/`
+4. 将截图**重命名**为 `[框架]_[序号].png`（如 `qdk_01.png`）并保存到该目录
+5. **禁止**在未命名的情况下进行后续操作
+
+**Step 1: 识图（必须使用 skill，禁止直接调用 image 工具）**
+- **必须**使用 `minimax-understand-image` skill：
+  ```bash
+  python3 ~/.openclaw/skills/minimax-understand-image/scripts/understand_image.py \
+    "memory/patrol/<今日日期>/[框架]_*.png" \
+    "识别图中所有股票代码和名称，以列表形式输出"
+  ```
+- 禁止直接调用 `image` 工具（该工具有幻觉问题，会导致选股数据错误）
+- 读取 `memory/patrol/<今日日期>/[框架]_*.png` 进行识别
 
 **Step 2: 写入股票列表**
 - 写入对应框架的 stocks.json（含今日日期）
-- qdk → `qdk_output/qdk_stocks.json`
-- ztx → `ztx_output/ztx_stocks.json`
-- b1 → `b1_output/b1_stocks.json`
+- qdk → `memory/patrol/<今日日期>/qdk_stocks.json`
+- ztx → `memory/patrol/<今日日期>/ztx_stocks.json`
+- b1 → `memory/patrol/<今日日期>/b1_stocks.json`
 
 **Step 3: 执行选股脚本**
 ```bash
 python3 scripts/run_stock_selection.py [qdk|ztx|b1]
 ```
-脚本自动执行：step2_fetch → step3_calc → step4_score → 保存patrol
+- 脚本根据框架类型自动调用对应的 step2/3/4 脚本
+- 脚本自动读取 Step 2 写入的 stocks.json（路径见 Step 2）
+- 脚本输出自动保存到 `memory/patrol/<今日日期>/`
 
-> ⚠️ 【重要】脚本运行完后，**必须读取输出文件**（`*_scores.json` / `*_kline.json`）获取完整数据，禁止只看终端输出。
+> ⚠️ 【重要】脚本运行完后，**必须读取输出文件**（`*_scores.json`）获取完整数据，禁止只看终端输出。
 
 **Step 4: 板块效应分析**
 ```bash
@@ -162,8 +194,9 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 4. QVeris → 保底
 
 **⚠️ Step 4.1（强制检查点）：验证板块数据**
-- 板块分析完成后，必须读取 `ztx_output/sector_analysis.json`（或对应框架）
+- 板块分析完成后，必须读取 `memory/patrol/<今日日期>/sector_analysis.json`
 - 检查每只股票的 `sector_change_pct` 字段是否非空
+- **验证通过标准**：每只股票至少要有 `sector_change_pct`（板块涨跌幅）和 `sector_money_net`（主力净额）
 - 若字段为空（解析失败），立即手动 curl eastmoney API 补全：
   ```bash
   curl -s -X POST "https://mkapi2.dfcfs.com/finskillshub/api/claw/query" \
@@ -172,11 +205,14 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
     -d '{"toolQuery":"行业名称板块今日涨跌幅主力净流入"}' | python3 -c "..."
   ```
   注意：行业名称从 `entityTagDTO.fullName` 提取，板块涨跌幅在 `table.f3`，主力净额在 `table.f62`
+- **若 eastmoney API 也失败**：立即停止并汇报用户，不得自行猜测板块数据
 - 板块数据未验证通过之前，**禁止进入 Step 5**
 
 **Step 5: 生成飞书文档**
-- 读取评分结果和**已验证的板块数据**
+- 读取 `memory/patrol/<今日日期>/[框架]_scores.json` 和 **已验证的板块数据**
 - 调用 `feishu_create_doc` 创建文档（新建，不要在旧文档上 update）
+- **报告必须严格遵循 SOP 框架结构**（包括评分子框架、数据字段顺序、输出格式）
+- **禁止**凭记忆自行发挥结构或省略任何评分字段
 - 调用 `message` 发送链接给用户
 
 **禁止**：
@@ -187,20 +223,23 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 - ❌ 板块数据未验证通过就生成报告
 - ❌ 在旧文档上update（总是新建）
 - ❌ 表格单元格内使用内嵌格式（加粗/斜体等）
+- ❌ 报告结构偏离 SOP 框架（禁止省略或自行调整评分子框架）
+- ❌ 直接调用 `image` 工具做识图（必须用 minimax-understand-image skill）
 
 **选股完成后的文件管理**：
 1. `memory/patrol/YYYY-MM-DD/` 目录（选股任务开始时自动确保存在）
-2. 截图保存到 `memory/patrol/YYYY-MM-DD/screenshots/`
+2. 截图命名格式：`[框架]_[序号].png`（如 `qdk_01.png`、`ztx_02.png`），保存到 `memory/patrol/YYYY-MM-DD/`
 3. 脚本输出的 `*_stocks.json` 和 `*_scores.json` 保留在 `memory/patrol/YYYY-MM-DD/`（由脚本自动写入）
 4. 飞书文档创建后，将报告正文保存到 `memory/patrol/YYYY-MM-DD/[框架]_report.md`
-5. 选股任务全部完成后 → **删除 screenshots/ 目录**（截图用完即删）
+5. 选股任务全部完成后 → **删除该目录下所有截图**（截图用完即删，不保留）
 6. 最终目录结构：
    ```
    memory/patrol/YYYY-MM-DD/
-   ├── [框架]_report.md       ← 永久报告
+   ├── qdk_01.png              ← 临时（任务完成后删除）
+   ├── ztx_01.png              ← 临时（任务完成后删除）
    ├── [框架]_scores.json    ← 永久评分数据
    ├── [框架]_stocks.json    ← 永久股票列表
-   └── screenshots/           ← 临时（选股完成后删除）
+   └── [框架]_report.md       ← 永久报告
    ```
 
 ## 🛠️ 脚本索引
@@ -225,7 +264,7 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 
 | 工具 | 规范 |
 |------|------|
-| 图片分析 | `image` 工具 |
+| 图片分析 | **minimax-understand-image skill**（禁止用 `image` 工具）|
 | 浏览器自动化 | **`agent-browser` CLI**（exec调用），禁止用 `browser` 工具 |
 | 板块数据 | **eastmoney_financial_data** skill（优先），agent-browser（备用） |
 | 发文件 | cp → ~/.openclaw/media/ → 发送 |
