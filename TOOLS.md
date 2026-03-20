@@ -42,3 +42,13 @@ Add whatever helps you do your job. This is your cheat sheet.
 ## Feishu 群组
 
 - **股票分析群** - `oc_5079867a1fd5155704772dc651c7d230`
+
+## 工具使用限制
+
+### image 工具（禁用）
+
+**禁止使用 `image` 工具进行股票条件股截图识别。**
+
+原因：image 工具在股票截图识别上幻觉严重，2026-03-20 两次任务均导致完全错误的识别结果（QDK 第一次6只全错，ZTX 第一次86只识别为11只）。
+
+**正确做法：** 必须使用 `minimax-understand-image` skill。如果 skill 不可用，排查配置问题而非换用 image 工具。
