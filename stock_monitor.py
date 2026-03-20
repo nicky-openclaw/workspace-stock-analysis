@@ -20,9 +20,8 @@ SCAN_TIMES = {
 # 重要：腾讯财经API为首选，东方财富API为备用
 
 def get_sector_flow():
-    """获取板块资金流 - 腾讯首选，东方财富备用"""
+    """获取大盘指数涨跌 - 腾讯"""
     
-    # 首选：腾讯财经
     try:
         url = "https://qt.gtimg.cn/q=sh000001,sz399001,sh000300"
         resp = requests.get(url, timeout=5)
@@ -30,141 +29,72 @@ def get_sector_flow():
         for line in resp.text.split("\n"):
             if "=" in line:
                 parts = line.split("~")
-                if len(parts) > 4:
+                if len(parts) > 32:
                     try:
                         name = parts[1][:10]
-                        change = float(parts[4]) if parts[4] and parts[4] != '-' else 0
+                        change = float(parts[32]) if parts[32] and parts[32] != '-' else 0
                         sectors.append({"name": name, "change": change})
                     except:
                         pass
         if sectors:
-            print(f"  [腾讯财经] 板块数据获取成功")
-            return sectors[:5]
+            print(f"  [腾讯] 大盘数据获取成功")
+            return sectors[:3]
     except Exception as e:
-        print(f"  [腾讯财经] 获取失败: {e}")
-    
-    # 备用：东方财富
-    for attempt in range(3):
-        try:
-            url = "https://push2.eastmoney.com/api/qt/clist/get"
-            params = {
-                "pn": 1, "pz": 5, "po": 1, "np": 1,
-                "fltt": 2, "invt": 2, "fid": "f3",
-                "fs": "m:90+t:2",
-                "fields": "f1,f2,f3,f4,f12,f13,f14",
-                "_": int(time.time() * 1000)
-            }
-            resp = requests.get(url, params=params, timeout=10)
-            data = resp.json()
-            sectors = []
-            if data.get("data") and data["data"].get("diff"):
-                for item in data["data"]["diff"][:5]:
-                    sectors.append({
-                        "name": item.get("f14"),
-                        "change": item.get("f3", 0)
-                    })
-            if sectors:
-                print(f"  [东方财富] 备用获取成功")
-                return sectors
-        except Exception as e:
-            if attempt < 2:
-                time.sleep(2)
-                continue
-            print(f"  [东方财富] 备用也失败: {e}")
+        print(f"  [腾讯] 获取失败: {e}")
     
     return []
 
 def get_top_gainers(limit=15):
-    """获取涨幅>5%且成交>3亿的股票 - 腾讯首选，东方财富备用"""
+    """获取涨幅>5%且成交>3亿的股票 - 新浪财经沪深接口"""
     
-    # 首选：腾讯财经
-    try:
-        # 获取沪深A股涨幅榜
-        url = "https://qt.gtimg.cn/q=sh0,sz0"
-        resp = requests.get(url, timeout=10)
-        
-        result = []
-        for line in resp.text.split("\n"):
-            if "=" in line:
-                parts = line.split("~")
-                if len(parts) > 10:
-                    try:
-                        change = float(parts[5]) if parts[5] and parts[5] != '-' else 0
-                        amount = float(parts[7]) if parts[7] and parts[7] != '-' else 0
-                        price = float(parts[3]) if parts[3] and parts[3] != '-' else 0
-                        
-                        # 筛选：涨幅>5% 且 成交>3亿
-                        if change > 5 and amount > 300000000:
-                            result.append({
-                                "code": parts[2],
-                                "name": parts[1][:10],
-                                "price": price,
-                                "change": change,
-                                "amount": amount / 100000000
-                            })
-                    except:
-                        pass
-        
-        if result:
-            result.sort(key=lambda x: x["change"], reverse=True)
-            print(f"  [腾讯财经] 获取到 {len(result)} 只强势股")
-            return result[:limit]
-    except Exception as e:
-        print(f"  [腾讯财经] 获取失败: {e}")
+    # 新浪财经：沪深分开取，再合并
+    nodes = ["sh_a", "sz_a"]
+    all_result = []
     
-    # 备用：东方财富
-    for attempt in range(3):
-        try:
-            url = "https://push2.eastmoney.com/api/qt/clist/get"
-            params = {
-                "pn": 1, 
-                "pz": 50,  
-                "po": 1,   
-                "np": 1,
-                "fltt": 2, 
-                "invt": 2, 
-                "fid": "f3",
-                "fs": "m:0+t:6,m:0+t:80",
-                "fields": "f2,f3,f4,f12,f14,f6",
-                "_": int(time.time() * 1000)
-            }
-            
-            resp = requests.get(url, params=params, timeout=15)
-            data = resp.json()
-            
-            result = []
-            if data.get("data") and data.get("data", {}).get("diff"):
-                for item in data["data"]["diff"]:
-                    change = item.get("f3", 0)
-                    amount = item.get("f6", 0)
+    for node in nodes:
+        for attempt in range(2):
+            try:
+                url = "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData"
+                params = {
+                    "page": 1,
+                    "num": 100,
+                    "sort": "percent",
+                    "asc": 0,
+                    "node": node,
+                    "_s_r_a": "page"
+                }
+                
+                resp = requests.get(url, params=params, timeout=15)
+                data = resp.json()
+                
+                for item in data:
+                    change = item.get("changepercent", 0)
+                    amount = item.get("amount", 0)  # 单位：元
                     
+                    # 筛选：涨幅>5% 且 成交>3亿
                     if change > 5 and amount > 300000000:
-                        result.append({
-                            "code": item.get("f12"),
-                            "name": item.get("f14"),
-                            "price": item.get("f2"),
+                        all_result.append({
+                            "code": item.get("code", ""),
+                            "name": item.get("name", ""),
+                            "price": item.get("trade", 0),
                             "change": change,
-                            "amount": amount / 100000000
+                            "amount": amount / 100000000  # 亿元
                         })
-            
-            if result:
-                print(f"  [东方财富] 备用获取成功")
-                result.sort(key=lambda x: x["change"], reverse=True)
-                return result[:limit]
-            
-        except Exception as e:
-            if attempt < 2:
-                print(f"  [东方财富] 第{attempt+1}次失败，重试中...")
-                time.sleep(2)
-                continue
-            print(f"  [东方财富] 获取失败: {e}")
+                break  # 成功则跳到下一个node
+                
+            except Exception as e:
+                if attempt < 1:
+                    time.sleep(1)
+                    continue
+                print(f"  [新浪-{node}] 获取失败: {e}")
     
-    # 最后备用：浏览器
-    if not result:
-        print("  [提示] API获取失败，请使用浏览器方式...")
-        print("  [提示] 使用: browser.start({profile: 'openclaw'}) + browser.navigate() + browser.snapshot()")
+    if all_result:
+        all_result.sort(key=lambda x: x["change"], reverse=True)
+        print(f"  [新浪财经] 获取到 {len(all_result)} 只强势股")
+        return all_result[:limit]
     
-    return []
+    print("  [警告] API获取失败，将使用浏览器兜底方案")
+    return None  # 返回None表示需要浏览器兜底
 
 def get_stock_realtime(code):
     """获取个股实时行情 - 腾讯首选，东方财富备用"""
@@ -406,6 +336,15 @@ def scan(scan_time):
     print("\n📈 强势股 (涨幅>5% + 成交>3亿):")
     gainers = get_top_gainers(20)
     
+    if gainers is None:
+        # API失败，返回特殊标记触发浏览器兜底
+        print("  [提示] 数据源暂时无响应，请使用浏览器方式获取")
+        print("\n" + "="*75)
+        print("💡 操作建议")
+        print("="*75)
+        print("API数据获取失败，需要使用浏览器方式获取数据")
+        return None  # None表示需要浏览器兜底
+    
     if not gainers:
         print("  [提示] 数据源暂时无响应，请稍后再试")
         print("\n" + "="*75)
@@ -415,32 +354,33 @@ def scan(scan_time):
         return []
     
     results = []
-    for g in gainers[:15]:
-        # 直接使用获取到的数据，不需要再查询
-        rt = {
-            "code": g["code"],
-            "name": g["name"],
-            "price": g["price"],
-            "change": g["change"],
-            "amount": g["amount"] * 100000000  # 转回元
-        }
-        
-        # 尝试获取K线（可能失败）
-        klines = get_kline(g["code"], 20)
-        score, signals = calc_signals(rt, klines)
-        
-        if score > 0:
-            results.append({
+    if gainers:
+        for g in gainers[:15]:
+            # 直接使用获取到的数据，不需要再查询
+            rt = {
                 "code": g["code"],
                 "name": g["name"],
                 "price": g["price"],
                 "change": g["change"],
-                "amount": g["amount"],
-                "score": score,
-                "signals": signals
-            })
-    
-    results.sort(key=lambda x: -x["score"])
+                "amount": g["amount"] * 100000000  # 转回元
+            }
+            
+            # 尝试获取K线（可能失败）
+            klines = get_kline(g["code"], 20)
+            score, signals = calc_signals(rt, klines)
+            
+            if score > 0:
+                results.append({
+                    "code": g["code"],
+                    "name": g["name"],
+                    "price": g["price"],
+                    "change": g["change"],
+                    "amount": g["amount"],
+                    "score": score,
+                    "signals": signals
+                })
+        
+        results.sort(key=lambda x: -x["score"])
     
     print(f"\n{'代码':<8} {'名称':<10} {'价格':<8} {'涨幅':<10} {'评分':<6} {'信号'}")
     print("-" * 75)
@@ -449,20 +389,23 @@ def scan(scan_time):
         for r in results[:10]:
             sigs = " | ".join(r["signals"][:3])
             print(f"{r['code']:<8} {r['name']:<10} {r['price']:<8} {r['change']:+10.2f}% {r['score']:<6} {sigs}")
-    else:
-        print("  (无)")
+    elif gainers is not None:
+        # 有数据但评分后无结果
+        print("  (无符合条件股票)")
+    # else: gainers is None 浏览器兜底情况，不打印"无"
     
     # 重点推荐
-    strong = [r for r in results if r["score"] >= 30]
-    if strong:
-        print(f"\n{'='*75}")
-        print("💎 重点关注 (评分≥30)")
-        print(f"{'='*75}")
-        for r in strong[:5]:
-            print(f"\n⭐ {r['name']}({r['code']})")
-            print(f"   价格: {r['price']} | 涨幅: {r['change']:+.2f}% | 成交: {r['amount']:.1f}亿")
-            for s in r["signals"]:
-                print(f"   → {s}")
+    if results:
+        strong = [r for r in results if r["score"] >= 30]
+        if strong:
+            print(f"\n{'='*75}")
+            print("💎 重点关注 (评分≥30)")
+            print(f"{'='*75}")
+            for r in strong[:5]:
+                print(f"\n⭐ {r['name']}({r['code']})")
+                print(f"   价格: {r['price']} | 涨幅: {r['change']:+.2f}% | 成交: {r['amount']:.1f}亿")
+                for s in r["signals"]:
+                    print(f"   → {s}")
     
     # 操作建议
     print(f"\n{'='*75}")
@@ -475,6 +418,9 @@ def scan(scan_time):
     else:
         print("收盘确认：信号明确，次日执行策略")
     
+    # gainers is None → API失败，需要浏览器兜底
+    if gainers is None:
+        return None
     return results
 
 if __name__ == "__main__":

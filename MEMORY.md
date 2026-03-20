@@ -60,18 +60,6 @@ memory/patrol/
 
 ---
 
-## 🚀 选股SOP（快速索引）
-
-| 步骤 | 操作 | 工具/脚本 |
-|------|------|---------|
-| 1 | 识图 | `image` 工具 |
-| 2 | 写入stocks.json | 手动写入（含今日日期） |
-| 3 | 执行选股 | `python3 scripts/run_stock_selection.py [qdk\|ztx\|b1]` |
-| 4 | 板块分析 | `python3 scripts/sector_analysis_v4.py --framework [qdk\|ztx\|b1]` |
-| 5 | 生成飞书文档 | `feishu_create_doc` + `message` 发送链接 |
-
----
-
 ## 🛠️ Skill索引
 
 | Skill | 用途 | API Key |
