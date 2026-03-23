@@ -26,7 +26,7 @@ def fill_missing_names(stocks):
     import urllib.request
     
     # 找出需要查询的股票
-    need_query = [s for s in stocks if not s.get('name')]
+    need_query = [s for s in stocks if not s.get('name') or s.get('name') in ('', '**')]
     if not need_query:
         return stocks
     
@@ -49,17 +49,18 @@ def fill_missing_names(stocks):
             for line in data.split(';'):
                 if not line.strip():
                     continue
-                # 解析返回数据，格式: "v_sh600000=\"51~股票名称~600000~..."
-                # 需要先去掉 v_ 前缀和后面的 ="51 部分
+                # 解析返回数据，格式: "v_sh600000="51~股票名称~600000~..."
+                # 注意：="51 中的 ~ 会干扰 naive split，需精确处理
                 if '~' not in line:
                     continue
-                # 提取代码和名称
-                code_part = line.split('~')[0]
-                # 去掉 v_sh 或 v_sz 前缀
-                if '=' in code_part:
-                    code_part = code_part.split('=')[0]
-                full_code = code_part.replace('v_sh', '').replace('v_sz', '')
-                name = line.split('~')[1] if '~' in line else ""
+                parts = line.split('~')
+                # parts[0] = 'v_sh600000="51'（含 ="51 后缀）
+                # parts[1] = 股票名称
+                # parts[2] = 股票代码
+                code_raw = parts[0]
+                name = parts[1] if len(parts) > 1 else ""
+                # 从 parts[2] 提取真正的 6 位代码
+                full_code = parts[2] if len(parts) > 2 else code_raw.replace('v_sh', '').replace('v_sz', '').split('=')[0]
                 
                 # 更新stocks中对应的名称
                 for s in stocks:
@@ -86,48 +87,97 @@ def find_images(date_str):
     # 首先尝试从 media/inbound 复制最新图片到 patrol 目录
     copy_latest_images(date_str)
     
-    # 只使用 brick_ 前缀，统一命名规范
+    # 兼容两套命名规范：
+    # 1. AGENTS.md 规范：[框架]_NN.png/jpg（存入 memory/patrol/YYYY-MM-DD/）
+    # 2. 脚本旧规范：YYYYMMDD_brick_NN.jpg（patrol/YYYYMMDD/ 或根目录）
+    # date_str 是 YYYYMMDD 格式，date_hyphen 是 YYYY-MM-DD 格式
+    date_hyphen = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+    frameworks = ['ztx', 'qdk', 'b1']
     patterns = [
+        # AGENTS.md 规范：memory/patrol/YYYY-MM-DD/[框架]_NN.png/jpg
+        os.path.join(PATROL_DIR, date_hyphen, "[qz]tx_*.png"),
+        os.path.join(PATROL_DIR, date_hyphen, "[qz]tx_*.jpg"),
+        os.path.join(PATROL_DIR, date_hyphen, "b1_*.png"),
+        os.path.join(PATROL_DIR, date_hyphen, "b1_*.jpg"),
+        # 脚本旧规范：patrol/YYYYMMDD/brick_NN.jpg
         os.path.join(PATROL_DIR, f"{date_str}_brick_*.jpg"),
         os.path.join(PATROL_DIR, date_str, "brick_*.jpg"),
+        # AGENTS.md 规范：memory/patrol/YYYY-MM-DD/[框架]_NN.png/jpg（无 memory/ 前缀时）
+        os.path.join(WORKSPACE_DIR, "memory", "patrol", date_hyphen, "[qz]tx_*.png"),
+        os.path.join(WORKSPACE_DIR, "memory", "patrol", date_hyphen, "[qz]tx_*.jpg"),
+        os.path.join(WORKSPACE_DIR, "memory", "patrol", date_hyphen, "b1_*.png"),
+        os.path.join(WORKSPACE_DIR, "memory", "patrol", date_hyphen, "b1_*.jpg"),
     ]
     images = []
     for pattern in patterns:
         images.extend(glob.glob(pattern))
+    # 去重（同一图片可能匹配多个 pattern）
+    images = list(dict.fromkeys(images))
     images.sort()
     return images
 
 
 def copy_latest_images(date_str):
-    """从 media/inbound 目录复制最新图片到 patrol 目录"""
+    """
+    从 media/inbound 复制最新图片到 patrol 目录。
+    
+    注意：此函数仅在 patrol 目录没有任何符合 AGENTS.md 命名规范的图片
+   （[qz]tx_*.png/jpg 或 b1_*.png/jpg）时才会复制。
+    AGENTS.md Step 0 会预先将截图保存为 [框架]_NN.png，
+    此时此函数不执行任何操作。
+    """
     import shutil
     from datetime import datetime
     
     if not os.path.exists(MEDIA_INBOUND_DIR):
         return
     
-    # 查找当天上传的图片（修改时间为当天）
+    date_hyphen = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+    
+    # 检查 patrol 目录是否已有 AGENTS.md 规范命名的图片
+    # 如果有，说明 Step 0 已完成，无需复制
+    existing = []
+    for pattern in [
+        os.path.join(PATROL_DIR, date_hyphen, "[qz]tx_*.png"),
+        os.path.join(PATROL_DIR, date_hyphen, "[qz]tx_*.jpg"),
+        os.path.join(PATROL_DIR, date_hyphen, "b1_*.png"),
+        os.path.join(PATROL_DIR, date_hyphen, "b1_*.jpg"),
+        os.path.join(WORKSPACE_DIR, "memory", "patrol", date_hyphen, "[qz]tx_*.png"),
+        os.path.join(WORKSPACE_DIR, "memory", "patrol", date_hyphen, "[qz]tx_*.jpg"),
+        os.path.join(WORKSPACE_DIR, "memory", "patrol", date_hyphen, "b1_*.png"),
+        os.path.join(WORKSPACE_DIR, "memory", "patrol", date_hyphen, "b1_*.jpg"),
+    ]:
+        existing.extend(glob.glob(pattern))
+    
+    if existing:
+        # Step 0 已保存截图，直接使用
+        return
+    
+    # 没有预存截图时，才从 media/inbound 复制（兜底逻辑）
     today = datetime.now().strftime("%Y-%m-%d")
     target_dir = os.path.join(PATROL_DIR, date_str)
     os.makedirs(target_dir, exist_ok=True)
     
-    copied = []
-    # 查找 jpg 图片
+    # 收集当天所有图片，按修改时间排序
+    candidates = []
     for f in os.listdir(MEDIA_INBOUND_DIR):
-        if f.endswith('.jpg'):
+        if f.endswith(('.jpg', '.png')):
             src_path = os.path.join(MEDIA_INBOUND_DIR, f)
-            # 检查修改时间
             mtime = datetime.fromtimestamp(os.path.getmtime(src_path))
             if mtime.strftime("%Y-%m-%d") == today:
-                # 复制并重命名
-                idx = len(copied) + 1
-                dst_name = f"{date_str}_brick_{idx:02d}.jpg"
-                dst_path = os.path.join(target_dir, dst_name)
-                shutil.copy2(src_path, dst_path)
-                copied.append(dst_path)
+                candidates.append((mtime, src_path))
     
-    if copied:
-        print(f"  从 media/inbound 复制了 {len(copied)} 张图片到 patrol/")
+    if not candidates:
+        return
+    
+    # 只复制最最新的一张（按修改时间取最后一个）
+    candidates.sort(key=lambda x: x[0])
+    _, latest_src = candidates[-1]
+    _, ext = os.path.splitext(latest_src)
+    dst_name = f"{date_str}_brick_01{ext}"
+    dst_path = os.path.join(target_dir, dst_name)
+    shutil.copy2(latest_src, dst_path)
+    print(f"  [兜底] 从 media/inbound 复制最新图片到 patrol/")
 
 
 def recognize_image(image_path):
@@ -183,12 +233,21 @@ def extract_name_from_text(text, code):
         if len(name) >= 2:
             return name
     
-    # 格式3: 查找代码后面的2-6个字符作为名称（排除常见无意义词）
-    pattern3 = rf'{code}\s*([^\d\s,，,。，;；:：\[\]（）()]+)'
+    # 格式3: 处理 markdown 加粗格式 **代码** 名称
+    # 格式3: 处理 markdown 加粗格式 **代码** 名称
+    pattern3 = rf'\*{2}{code}\*{2}\s*([^\*\n]+)'
     match = re.search(pattern3, text)
     if match:
         name = match.group(1).strip()
-        # 过滤掉常见无意义词
+        ignore_words = ['股票', '代码', '如下', '包括', '分别', '共', '只', '个', '等', '和', '与']
+        if len(name) >= 2 and name not in ignore_words:
+            return name
+    
+    # 格式4: 查找代码后面的字符作为名称（排除常见无意义词和*）
+    pattern4 = rf'{code}\s*([^*\d\s,，,。，;；:：\[\]（）()]+)'
+    match = re.search(pattern4, text)
+    if match:
+        name = match.group(1).strip()
         ignore_words = ['股票', '代码', '如下', '包括', '分别', '共', '只', '个', '等', '和', '与']
         if len(name) >= 2 and name not in ignore_words:
             return name
@@ -224,6 +283,39 @@ def main():
     
     # 补全缺失的股票名称
     unique_stocks = fill_missing_names(unique_stocks)
+    
+    # 二次补全：对仍有空名或**名的股票再调用一次腾讯API兜底
+    remaining = [s for s in unique_stocks if not s.get('name') or s.get('name') in ('', '**')]
+    if remaining:
+        print(f"  [二次补全] 还有 {len(remaining)} 只股票名字缺失，重试...")
+        import urllib.request
+        # 按市场前缀分组
+        sh_codes, sz_codes = [], []
+        for s in remaining:
+            c = s['code']
+            sh_codes.append('sh' + c) if c.startswith('6') else sz_codes.append('sz' + c)
+        all_batches = [sh_codes[i:i+20] for i in range(0, len(sh_codes), 20)]
+        all_batches += [sz_codes[i:i+20] for i in range(0, len(sz_codes), 20)]
+        for batch in all_batches:
+            if not batch:
+                continue
+            url = TENCENT_API.format(",".join(batch))
+            try:
+                resp = urllib.request.urlopen(url, timeout=10)
+                data = resp.read().decode('gbk', errors='ignore')
+                for line in data.split(';'):
+                    if '~' not in line:
+                        continue
+                    parts = line.split('~')
+                    code_part = parts[0].replace('v_sh', '').replace('v_sz', '')
+                    name = parts[1].strip() if len(parts) > 1 and parts[1].strip() else ''
+                    if not name or name == '**':
+                        continue
+                    for s in unique_stocks:
+                        if s['code'] == code_part and (not s.get('name') or s.get('name') in ('', '**')):
+                            s['name'] = name
+            except Exception as e:
+                print(f"    二次补全失败: {e}")
     
     print(f"总计: {len(all_stocks)} 个, 去重后: {len(unique_stocks)} 个")
     
