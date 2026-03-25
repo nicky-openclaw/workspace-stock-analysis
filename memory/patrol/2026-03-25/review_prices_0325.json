@@ -1,0 +1,653 @@
+{
+  "002192": {
+    "name": "融捷股份",
+    "today_close": 64.46,
+    "yestclose": 58.6,
+    "today_change_pct": 10.0,
+    "selection_day_change": 10.01
+  },
+  "300335": {
+    "name": "迪森股份",
+    "today_close": 8.69,
+    "yestclose": 8.4,
+    "today_change_pct": 3.45,
+    "selection_day_change": 20.0
+  },
+  "000809": {
+    "name": "和展能源",
+    "today_close": 4.06,
+    "yestclose": 4.01,
+    "today_change_pct": 1.25,
+    "selection_day_change": 9.86
+  },
+  "001289": {
+    "name": "龙源电力",
+    "today_close": 19.18,
+    "yestclose": 19.05,
+    "today_change_pct": 0.68,
+    "selection_day_change": 6.31
+  },
+  "300938": {
+    "name": "信测标准",
+    "today_close": 41.19,
+    "yestclose": 41.17,
+    "today_change_pct": 0.05,
+    "selection_day_change": 14.94
+  },
+  "002039": {
+    "name": "黔源电力",
+    "today_close": 21.49,
+    "yestclose": 20.0,
+    "today_change_pct": 7.45,
+    "selection_day_change": 7.99
+  },
+  "000531": {
+    "name": "穗恒运Ａ",
+    "today_close": 8.03,
+    "yestclose": 7.88,
+    "today_change_pct": 1.9,
+    "selection_day_change": 9.14
+  },
+  "000883": {
+    "name": "湖北能源",
+    "today_close": 5.26,
+    "yestclose": 5.1,
+    "today_change_pct": 3.14,
+    "selection_day_change": 6.03
+  },
+  "300497": {
+    "name": "富祥药业",
+    "today_close": 17.3,
+    "yestclose": 17.0,
+    "today_change_pct": 1.76,
+    "selection_day_change": 19.97
+  },
+  "000690": {
+    "name": "宝新能源",
+    "today_close": 5.61,
+    "yestclose": 5.1,
+    "today_change_pct": 10.0,
+    "selection_day_change": 5.81
+  },
+  "301105": {
+    "name": "鸿铭股份",
+    "today_close": 61.8,
+    "yestclose": 60.98,
+    "today_change_pct": 1.34,
+    "selection_day_change": 15.49
+  },
+  "688272": {
+    "name": "富吉瑞",
+    "today_close": 40.89,
+    "yestclose": 39.6,
+    "today_change_pct": 3.26,
+    "selection_day_change": 15.52
+  },
+  "300980": {
+    "name": "祥源新材",
+    "today_close": 38.99,
+    "yestclose": 37.31,
+    "today_change_pct": 4.5,
+    "selection_day_change": 13.16
+  },
+  "301609": {
+    "name": "山大电力",
+    "today_close": 57.08,
+    "yestclose": 58.81,
+    "today_change_pct": -2.94,
+    "selection_day_change": 15.52
+  },
+  "002616": {
+    "name": "长青集团",
+    "today_close": 6.72,
+    "yestclose": 6.36,
+    "today_change_pct": 5.66,
+    "selection_day_change": 5.3
+  },
+  "300603": {
+    "name": "立昂技术",
+    "today_close": 11.68,
+    "yestclose": 11.65,
+    "today_change_pct": 0.26,
+    "selection_day_change": 10.53
+  },
+  "300137": {
+    "name": "先河环保",
+    "today_close": 14.2,
+    "yestclose": 13.96,
+    "today_change_pct": 1.72,
+    "selection_day_change": 8.22
+  },
+  "688428": {
+    "name": "诺诚健华-U",
+    "today_close": 24.31,
+    "yestclose": 24.46,
+    "today_change_pct": -0.61,
+    "selection_day_change": 6.21
+  },
+  "300099": {
+    "name": "尤洛卡",
+    "today_close": 9.49,
+    "yestclose": 9.4,
+    "today_change_pct": 0.96,
+    "selection_day_change": 10.72
+  },
+  "688353": {
+    "name": "华盛锂电",
+    "today_close": 111.28,
+    "yestclose": 109.71,
+    "today_change_pct": 1.43,
+    "selection_day_change": 11.03
+  },
+  "002222": {
+    "name": "福晶科技",
+    "today_close": 67.35,
+    "yestclose": 64.79,
+    "today_change_pct": 3.95,
+    "selection_day_change": 10.0
+  },
+  "600116": {
+    "name": "三峡水利",
+    "today_close": 7.23,
+    "yestclose": 7.01,
+    "today_change_pct": 3.14,
+    "selection_day_change": 5.57
+  },
+  "001382": {
+    "name": "新亚电缆",
+    "today_close": 22.97,
+    "yestclose": 22.88,
+    "today_change_pct": 0.39,
+    "selection_day_change": 7.12
+  },
+  "301399": {
+    "name": "英特科技",
+    "today_close": 22.15,
+    "yestclose": 22.05,
+    "today_change_pct": 0.45,
+    "selection_day_change": 9.59
+  },
+  "000516": {
+    "name": "国际医学",
+    "today_close": 4.96,
+    "yestclose": 5.01,
+    "today_change_pct": -1.0,
+    "selection_day_change": 8.91
+  },
+  "301183": {
+    "name": "东田微",
+    "today_close": 156.0,
+    "yestclose": 158.0,
+    "today_change_pct": -1.27,
+    "selection_day_change": 16.46
+  },
+  "600163": {
+    "name": "中闽能源",
+    "today_close": 7.54,
+    "yestclose": 6.85,
+    "today_change_pct": 10.07,
+    "selection_day_change": 6.37
+  },
+  "600780": {
+    "name": "通宝能源",
+    "today_close": 7.68,
+    "yestclose": 6.98,
+    "today_change_pct": 10.03,
+    "selection_day_change": 6.08
+  },
+  "000688": {
+    "name": "国城矿业",
+    "today_close": 37.7,
+    "yestclose": 35.86,
+    "today_change_pct": 5.13,
+    "selection_day_change": 10.0
+  },
+  "002183": {
+    "name": "怡 亚 通",
+    "today_close": 5.49,
+    "yestclose": 5.41,
+    "today_change_pct": 1.48,
+    "selection_day_change": 4.44
+  },
+  "301516": {
+    "name": "中远通",
+    "today_close": 19.09,
+    "yestclose": 19.24,
+    "today_change_pct": -0.78,
+    "selection_day_change": 11.99
+  },
+  "301157": {
+    "name": "华塑科技",
+    "today_close": 61.77,
+    "yestclose": 61.61,
+    "today_change_pct": 0.26,
+    "selection_day_change": 12.04
+  },
+  "301479": {
+    "name": "弘景光电",
+    "today_close": 98.44,
+    "yestclose": 97.5,
+    "today_change_pct": 0.96,
+    "selection_day_change": 8.7
+  },
+  "603409": {
+    "name": "汇通控股",
+    "today_close": 39.16,
+    "yestclose": 38.74,
+    "today_change_pct": 1.08,
+    "selection_day_change": 5.56
+  },
+  "002431": {
+    "name": "棕榈股份",
+    "today_close": 2.8,
+    "yestclose": 2.72,
+    "today_change_pct": 2.94,
+    "selection_day_change": 6.67
+  },
+  "301282": {
+    "name": "金禄电子",
+    "today_close": 33.79,
+    "yestclose": 33.05,
+    "today_change_pct": 2.24,
+    "selection_day_change": 7.34
+  },
+  "688667": {
+    "name": "菱电电控",
+    "today_close": 95.4,
+    "yestclose": 96.99,
+    "today_change_pct": -1.64,
+    "selection_day_change": 12.83
+  },
+  "688630": {
+    "name": "芯碁微装",
+    "today_close": 185.18,
+    "yestclose": 181.49,
+    "today_change_pct": 2.03,
+    "selection_day_change": 8.33
+  },
+  "301226": {
+    "name": "祥明智能",
+    "today_close": 41.72,
+    "yestclose": 42.96,
+    "today_change_pct": -2.89,
+    "selection_day_change": 20.0
+  },
+  "300266": {
+    "name": "兴源环境",
+    "today_close": 2.85,
+    "yestclose": 2.74,
+    "today_change_pct": 4.01,
+    "selection_day_change": 7.03
+  },
+  "002993": {
+    "name": "奥海科技",
+    "today_close": 49.2,
+    "yestclose": 48.44,
+    "today_change_pct": 1.57,
+    "selection_day_change": 8.0
+  },
+  "600773": {
+    "name": "西藏城投",
+    "today_close": 18.47,
+    "yestclose": 18.08,
+    "today_change_pct": 2.16,
+    "selection_day_change": 9.98
+  },
+  "002229": {
+    "name": "鸿博股份",
+    "today_close": 18.62,
+    "yestclose": 17.57,
+    "today_change_pct": 5.98,
+    "selection_day_change": 6.74
+  },
+  "301099": {
+    "name": "雅创电子",
+    "today_close": 49.44,
+    "yestclose": 48.4,
+    "today_change_pct": 2.15,
+    "selection_day_change": 5.01
+  },
+  "003816": {
+    "name": "中国广核",
+    "today_close": 4.51,
+    "yestclose": 4.37,
+    "today_change_pct": 3.2,
+    "selection_day_change": 4.05
+  },
+  "605056": {
+    "name": "咸亨国际",
+    "today_close": 24.37,
+    "yestclose": 23.64,
+    "today_change_pct": 3.09,
+    "selection_day_change": 10.0
+  },
+  "000692": {
+    "name": "惠天热电",
+    "today_close": 4.45,
+    "yestclose": 4.25,
+    "today_change_pct": 4.71,
+    "selection_day_change": 8.14
+  },
+  "300265": {
+    "name": "通光线缆",
+    "today_close": 18.39,
+    "yestclose": 18.28,
+    "today_change_pct": 0.6,
+    "selection_day_change": 13.12
+  },
+  "000035": {
+    "name": "中国天楹",
+    "today_close": 7.56,
+    "yestclose": 7.46,
+    "today_change_pct": 1.34,
+    "selection_day_change": 10.03
+  },
+  "000591": {
+    "name": "太阳能",
+    "today_close": 6.39,
+    "yestclose": 6.17,
+    "today_change_pct": 3.57,
+    "selection_day_change": 7.68
+  },
+  "301299": {
+    "name": "卓创资讯",
+    "today_close": 68.29,
+    "yestclose": 67.32,
+    "today_change_pct": 1.44,
+    "selection_day_change": 8.58
+  },
+  "000899": {
+    "name": "赣能股份",
+    "today_close": 14.19,
+    "yestclose": 14.0,
+    "today_change_pct": 1.36,
+    "selection_day_change": 7.12
+  },
+  "300464": {
+    "name": "星徽股份",
+    "today_close": 7.66,
+    "yestclose": 7.47,
+    "today_change_pct": 2.54,
+    "selection_day_change": 7.64
+  },
+  "605366": {
+    "name": "宏柏新材",
+    "today_close": 11.21,
+    "yestclose": 10.19,
+    "today_change_pct": 10.01,
+    "selection_day_change": 10.04
+  },
+  "301511": {
+    "name": "德福科技",
+    "today_close": 37.64,
+    "yestclose": 37.19,
+    "today_change_pct": 1.21,
+    "selection_day_change": 8.27
+  },
+  "600644": {
+    "name": "乐山电力",
+    "today_close": 13.29,
+    "yestclose": 13.06,
+    "today_change_pct": 1.76,
+    "selection_day_change": 9.2
+  },
+  "000767": {
+    "name": "晋控电力",
+    "today_close": 4.21,
+    "yestclose": 3.89,
+    "today_change_pct": 8.23,
+    "selection_day_change": 7.16
+  },
+  "300983": {
+    "name": "尤安设计",
+    "today_close": 29.67,
+    "yestclose": 30.33,
+    "today_change_pct": -2.18,
+    "selection_day_change": 11.18
+  },
+  "688205": {
+    "name": "德科立",
+    "today_close": 193.38,
+    "yestclose": 179.27,
+    "today_change_pct": 7.87,
+    "selection_day_change": 6.89
+  },
+  "301308": {
+    "name": "江波龙",
+    "today_close": 338.16,
+    "yestclose": 323.5,
+    "today_change_pct": 4.53,
+    "selection_day_change": 5.65
+  },
+  "000027": {
+    "name": "深圳能源",
+    "today_close": 7.61,
+    "yestclose": 7.31,
+    "today_change_pct": 4.1,
+    "selection_day_change": 4.43
+  },
+  "601869": {
+    "name": "长飞光纤",
+    "today_close": 256.64,
+    "yestclose": 233.31,
+    "today_change_pct": 10.0,
+    "selection_day_change": 10.0
+  },
+  "000507": {
+    "name": "珠海港",
+    "today_close": 5.85,
+    "yestclose": 5.65,
+    "today_change_pct": 3.54,
+    "selection_day_change": 5.21
+  },
+  "300365": {
+    "name": "恒华科技",
+    "today_close": 7.11,
+    "yestclose": 6.97,
+    "today_change_pct": 2.01,
+    "selection_day_change": 6.09
+  },
+  "002063": {
+    "name": "远光软件",
+    "today_close": 7.11,
+    "yestclose": 7.09,
+    "today_change_pct": 0.28,
+    "selection_day_change": 5.66
+  },
+  "600483": {
+    "name": "福能股份",
+    "today_close": 11.17,
+    "yestclose": 10.65,
+    "today_change_pct": 4.88,
+    "selection_day_change": 5.24
+  },
+  "300829": {
+    "name": "金丹科技",
+    "today_close": 20.74,
+    "yestclose": 20.52,
+    "today_change_pct": 1.07,
+    "selection_day_change": 5.39
+  },
+  "600405": {
+    "name": "动力源",
+    "today_close": 5.99,
+    "yestclose": 5.79,
+    "today_change_pct": 3.45,
+    "selection_day_change": 6.83
+  },
+  "605098": {
+    "name": "行动教育",
+    "today_close": 52.82,
+    "yestclose": 52.85,
+    "today_change_pct": -0.06,
+    "selection_day_change": 5.07
+  },
+  "301040": {
+    "name": "中环海陆",
+    "today_close": 34.3,
+    "yestclose": 40.4,
+    "today_change_pct": -15.1,
+    "selection_day_change": 7.65
+  },
+  "601991": {
+    "name": "大唐发电",
+    "today_close": 4.46,
+    "yestclose": 4.24,
+    "today_change_pct": 5.19,
+    "selection_day_change": 5.21
+  },
+  "002181": {
+    "name": "粤 传 媒",
+    "today_close": 11.69,
+    "yestclose": 11.13,
+    "today_change_pct": 5.03,
+    "selection_day_change": 6.0
+  },
+  "600744": {
+    "name": "华银电力",
+    "today_close": 8.99,
+    "yestclose": 8.77,
+    "today_change_pct": 2.51,
+    "selection_day_change": 10.04
+  },
+  "688248": {
+    "name": "南网科技",
+    "today_close": 66.27,
+    "yestclose": 67.28,
+    "today_change_pct": -1.5,
+    "selection_day_change": 9.17
+  },
+  "002428": {
+    "name": "云南锗业",
+    "today_close": 48.43,
+    "yestclose": 44.66,
+    "today_change_pct": 8.44,
+    "selection_day_change": 10.0
+  },
+  "603876": {
+    "name": "鼎胜新材",
+    "today_close": 21.36,
+    "yestclose": 21.44,
+    "today_change_pct": -0.37,
+    "selection_day_change": 8.72
+  },
+  "601975": {
+    "name": "招商南油",
+    "today_close": 4.64,
+    "yestclose": 4.83,
+    "today_change_pct": -3.93,
+    "selection_day_change": 10.02
+  },
+  "002636": {
+    "name": "金安国纪",
+    "today_close": 31.4,
+    "yestclose": 30.99,
+    "today_change_pct": 1.32,
+    "selection_day_change": 10.01
+  },
+  "002298": {
+    "name": "中电鑫龙",
+    "today_close": 12.48,
+    "yestclose": 12.28,
+    "today_change_pct": 1.63,
+    "selection_day_change": 6.14
+  },
+  "002053": {
+    "name": "云南能投",
+    "today_close": 13.81,
+    "yestclose": 13.0,
+    "today_change_pct": 6.23,
+    "selection_day_change": 4.59
+  },
+  "300184": {
+    "name": "力源信息",
+    "today_close": 11.37,
+    "yestclose": 11.03,
+    "today_change_pct": 3.08,
+    "selection_day_change": 4.45
+  },
+  "605286": {
+    "name": "同力天启",
+    "today_close": 49.94,
+    "yestclose": 49.29,
+    "today_change_pct": 1.32,
+    "selection_day_change": 5.64
+  },
+  "002667": {
+    "name": "威领股份",
+    "today_close": 27.87,
+    "yestclose": 27.82,
+    "today_change_pct": 0.18,
+    "selection_day_change": 5.98
+  },
+  "601033": {
+    "name": "永兴股份",
+    "today_close": 16.55,
+    "yestclose": 16.04,
+    "today_change_pct": 3.18,
+    "selection_day_change": 4.56
+  },
+  "000951": {
+    "name": "中国重汽",
+    "today_close": 22.7,
+    "yestclose": 22.52,
+    "today_change_pct": 0.8,
+    "selection_day_change": 5.38
+  },
+  "603826": {
+    "name": "坤彩科技",
+    "today_close": 25.33,
+    "yestclose": 24.35,
+    "today_change_pct": 4.02,
+    "selection_day_change": 5.59
+  },
+  "000993": {
+    "name": "闽东电力",
+    "today_close": 15.7,
+    "yestclose": 14.27,
+    "today_change_pct": 10.02,
+    "selection_day_change": 4.54
+  },
+  "000533": {
+    "name": "顺钠股份",
+    "today_close": 17.25,
+    "yestclose": 17.06,
+    "today_change_pct": 1.11,
+    "selection_day_change": 4.47
+  },
+  "002082": {
+    "name": "万邦德",
+    "today_close": 21.52,
+    "yestclose": 19.79,
+    "today_change_pct": 8.74,
+    "selection_day_change": 10.01
+  },
+  "601016": {
+    "name": "节能风电",
+    "today_close": 5.4,
+    "yestclose": 4.91,
+    "today_change_pct": 9.98,
+    "selection_day_change": 10.09
+  },
+  "688551": {
+    "name": "科威尔",
+    "today_close": 46.61,
+    "yestclose": 47.34,
+    "today_change_pct": -1.54,
+    "selection_day_change": 20.0
+  },
+  "000537": {
+    "name": "绿发电力",
+    "today_close": 12.35,
+    "yestclose": 11.95,
+    "today_change_pct": 3.35,
+    "selection_day_change": 10.04
+  },
+  "000720": {
+    "name": "新能泰山",
+    "today_close": 4.55,
+    "yestclose": 4.14,
+    "today_change_pct": 9.9,
+    "selection_day_change": 10.11
+  }
+}
