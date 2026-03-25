@@ -17,12 +17,12 @@ last_heartbeat_result: ok
 - [x] 自主学习目录结构建立
 - [x] 新版复盘模板设计
 - [x] memory.md/corrections.md/heartbeat-state.md更新
+- [x] 取消15:05每日盘面分析cron（已删除）
+- [x] 选股复盘cron更新为合并版
+- [x] AGENTS.md更新mx-skills使用规范
 
 ## 待处理
-- [ ] 取消15:05每日盘面分析cron（与选股复盘合并）
-- [ ] 更新选股复盘cron payload为合并版（含大盘分析+自主学习）
-- [ ] 测试完整合并版报告生成
-- [ ] 更新AGENTS.md加入mx-skills使用规范
+- [ ] 测试完整合并版报告生成（明日15:10自动触发）
 
 ## 认知更新
 - 2026-03-25：复盘的双重目的——用户了解市场 + 我自主学习
