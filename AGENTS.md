@@ -352,3 +352,20 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 1. 读取本周 memory/ 文件
 2. 分析完成情况
 3. 写入周报
+
+---
+
+## 🔥 妙想 mx-skills 路由规则（金融问题默认调用）
+
+收到金融相关问题时，按以下原则选择 skill：
+
+| 问题类型 | 调用 Skill | 示例 |
+|---------|-----------|------|
+| 筛选符合特定条件的股票/基金/行业板块 | mx-stocks-screener | "今日涨跌幅大于5%的A股" |
+| 联网检索金融资讯、公告、研报、市场热点 | mx-finance-search | "宁德时代近期公告" |
+| 查询 GDP、CPI、宏观政策等经济数据 | mx-macro-data | "中美近十年GDP对比" |
+| 查询股票/基金/债券的财务数据（PE/ROE/财报等）| mx-finance-data | "宁德时代PE和ROE" |
+
+**注意**：
+- 混合问题时，按主要需求选择最合适的一个 skill
+- 需要多个 skill 综合分析时，依次调用，分别获取数据后再整合

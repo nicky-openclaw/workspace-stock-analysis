@@ -1,36 +1,37 @@
-# Corrections Log — Template
+# Corrections Log — 股票分析Agent
 
-> This file is created in `~/self-improving/corrections.md` when you first use the skill.
-> Keeps the last 50 corrections. Older entries are evaluated for promotion or archived.
+> 最近50条纠正记录
 
-## Example Entries
+---
 
-```markdown
-## 2026-02-19
+## 2026-03-25
 
-### 14:32 — Code style
-- **Correction:** "Use 2-space indentation, not 4"
-- **Context:** Editing TypeScript file
-- **Count:** 1 (first occurrence)
+### 20:49 — 复盘目的
+- **纠正**："复盘不止是记录，是让你自主学习分析"
+- **上下文**：讨论现有复盘框架的不足
+- **行动**：建立self-improving框架，强调学习闭环
+- **Count:** 1
 
-### 16:15 — Communication
-- **Correction:** "Don't start responses with 'Great question!'"
-- **Context:** Chat response
-- **Count:** 3 → **PROMOTED to memory.md**
+### 20:59 — 归因分析
+- **纠正**："归因分析要结合选股结果和当天大盘情况"
+- **上下文**：讨论新版归因分析框架
+- **行动**：新版复盘模板加入"选股+大盘结合分析"
+- **Count:** 1
 
-## 2026-02-18
+### 20:59 — 自主学习
+- **纠正**："要有想法有灵魂，不是机械执行"
+- **上下文**：用户强调不希望我机械执行
+- **行动**：建立自主学习模块，强调认知迭代
+- **Count:** 1
 
-### 09:00 — Project: website
-- **Correction:** "For this project, always use Tailwind"
-- **Context:** CSS discussion
-- **Action:** Added to projects/website.md
-```
+### 21:06 — self-improving框架
+- **纠正**："skill安装好了，检查一下"
+- **上下文**：skill安装后初始化
+- **行动**：重新填充股票分析相关内容
+- **Count:** 1
 
-## Log Format
+---
 
-Each entry includes:
-- **Timestamp** — When the correction happened
-- **Correction** — What the user said
-- **Context** — What triggered it
-- **Count** — How many times (for promotion tracking)
-- **Action** — Where it was stored (if promoted)
+## 历史记录（待整理）
+
+（无）

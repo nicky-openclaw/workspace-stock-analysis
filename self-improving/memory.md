@@ -1,30 +1,47 @@
-# HOT Memory — Template
+# HOT Memory — 股票分析Agent
 
-> This file is created in `~/self-improving/memory.md` when you first use the skill.
-> Keep it ≤100 lines. Most-used patterns live here.
+> ≤100行核心教训区
 
-## Example Entries
+---
 
-```markdown
-## Preferences
-- Code style: Prefer explicit over implicit
-- Communication: Direct, no fluff
-- Time zone: Europe/Madrid
+## 框架有效条件（已验证）
 
-## Patterns (promoted from corrections)
-- Always use TypeScript strict mode
-- Prefer pnpm over npm
-- Format: ISO 8601 for dates
+| 模式 | 触发条件 | 行动 |
+|------|---------|------|
+| 启动K高效 | 主线板块明确+情绪好 | 积极参与 |
+| 砖型图高效 | 个股突破+板块助攻 | 找砖型信号 |
+| 框架失灵 | 大盘分化+主线不明确 | 谨慎选股 |
+| 科创板风险 | 主力净流出 | 回避或严格止损 |
 
-## Project defaults
-- Tests: Jest with coverage >80%
-- Commits: Conventional commits format
-```
+---
 
-## Usage
+## 选股框架核心原则
 
-The agent will:
-1. Load this file on every session
-2. Add entries when patterns are used 3x in 7 days
-3. Demote unused entries to WARM after 30 days
-4. Never exceed 100 lines (compacts automatically)
+- 启动K：昨日涨停/大涨 + 主线板块助攻 = 连续强势
+- 砖型图：突破 + 量能放大 + 板块助攻 = 有效信号
+- 两者都强调"板块助攻"，无助攻的个股独立行情难以延续
+
+---
+
+## 数据获取优先级
+
+1. mx-finance-data（基本面/估值）— 优先，额度有限
+2. 新浪/腾讯API（实时行情）— 基础数据
+3. agent-browser（网页数据）— 备用
+
+---
+
+## 复盘核心目标
+
+复盘不只是记录，是让我自主学习：
+- 市场环境如何影响框架表现
+- 什么情况下框架有效/失灵
+- 认知需要持续迭代，不机械执行
+
+---
+
+## 用户偏好
+
+- 直接给结论，再给支撑数据
+- 重要风险说三遍
+- 不盲目唱空或唱多，数据驱动
