@@ -66,7 +66,7 @@ memory/patrol/
 |-------|------|---------|
 | eastmoney_financial_data | 板块涨跌+主力净额（优先） | mkt_ed_FmsusuPQr6aZCpqc2Pgof6l7gGbnvS_riNSxtGeI |
 | eastmoney_financial_search | 金融资讯搜索 | 同上 |
-| qveris-official | 保底数据 | sk-PxV8UWOz7UcoaU6yt0rsAfrzmTpSAyW70Qge8jsj-8g |
+| qveris-official | 保底数据 | `QVERIS_API_KEY` 环境变量 |
 
 ---
 

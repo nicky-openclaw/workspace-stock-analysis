@@ -28,7 +28,10 @@
         "momentum": 15
       },
       "j": 32.34,
-      "rsi3": 63.77
+      "rsi3": 63.77,
+      "industry": "轻工制造",
+      "sector_change_pct": "-2.11%",
+      "sector_money_net": -937668592
     },
     {
       "code": "605099.SH",
@@ -54,7 +57,10 @@
         "momentum": 15
       },
       "j": 40.66,
-      "rsi3": 73.64
+      "rsi3": 73.64,
+      "industry": "轻工制造",
+      "sector_change_pct": "-2.11%",
+      "sector_money_net": -937668592
     },
     {
       "code": "300827.SH",
@@ -80,7 +86,10 @@
         "momentum": 15
       },
       "j": 61.81,
-      "rsi3": 88.47
+      "rsi3": 88.47,
+      "industry": "电力设备",
+      "sector_change_pct": "+1.57%",
+      "sector_money_net": null
     },
     {
       "code": "688680.SH",
@@ -106,7 +115,10 @@
         "momentum": 15
       },
       "j": 65.09,
-      "rsi3": 90.42
+      "rsi3": 90.42,
+      "industry": "电力设备",
+      "sector_change_pct": "+1.57%",
+      "sector_money_net": null
     },
     {
       "code": "301268.SH",
@@ -132,7 +144,10 @@
         "momentum": 15
       },
       "j": 14.32,
-      "rsi3": 64.9
+      "rsi3": 64.9,
+      "industry": "机械设备",
+      "sector_change_pct": "-1.59%",
+      "sector_money_net": null
     }
   ],
   "all_scored": [

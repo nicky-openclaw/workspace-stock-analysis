@@ -86,8 +86,8 @@
 | 交易时段 | 腾讯API | qt.gtimg.cn |
 | 交易时段备用 | 东方财富Browser | profile: "openclaw" |
 | 非交易时段 | Tavily | 搜索 |
-| 复盘涨幅 | **QVeris** | 批量获取收盘价，禁止用实时价格 |
-| 复盘备用 | akshare | QVeris失败时使用 |
+| 复盘涨幅 | **agent-browser** | 批量获取收盘价，禁止用实时价格 |
+| 复盘备用 | 腾讯API | agent-browser失败时使用 |
 
 ---
 
@@ -303,7 +303,7 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
    - 启动K：`memory/patrol/YYYY-MM-DD/qdk_scores.json`
    - 砖型图：`memory/patrol/YYYY-MM-DD/ztx_scores.json`
    - B1：`memory/patrol/YYYY-MM-DD/b1_scores.json`
-2. ✅ 用 **QVeris** 批量获取所有选股今日收盘价和涨跌幅（禁止逐个浏览器查询）
+2. ✅ 用 **agent-browser** 批量获取所有选股今日收盘价和涨跌幅（禁止逐个浏览器查询）
 3. ✅ 对每只股票进行归因分析（见 frameworks/review_sop.md）
 4. ✅ 生成复盘报告保存到 `memory/patrol/YYYY-MM-DD/market.md`（选股结果）或 `memory/patrol/market/YYYY-MM-DD.md`（盘面分析）
 
@@ -317,7 +317,7 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 **禁止**：
 - ❌ 不读取patrol目录就开始复盘
 - ❌ 只列涨跌幅不做归因分析
-- ❌ 用浏览器逐个查询股价（改用QVeris）
+- ❌ 用浏览器逐个查询股价（改用agent-browser）
 
 ---
 

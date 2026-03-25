@@ -1,0 +1,78 @@
+2026/03/23-16:49:04.566 98a428 Reusing MANIFEST /Users/nicky/.openclaw/workspace-stock-analysis/openclaw/Default/Local Storage/leveldb/MANIFEST-000001
+2026/03/23-16:49:04.569 98a428 Recovering log #3
+2026/03/23-16:49:04.569 98a428 Reusing old log /Users/nicky/.openclaw/workspace-stock-analysis/openclaw/Default/Local Storage/leveldb/000003.log 
+2026/03/24-14:24:53.074 98a42f Level-0 table #5: started
+2026/03/24-14:24:53.080 98a42f Level-0 table #5: 12931 bytes OK
+2026/03/24-14:24:53.083 98a42f Delete type=0 #3
+2026/03/24-14:33:42.878 98a42e Level-0 table #7: started
+2026/03/24-14:33:42.882 98a42e Level-0 table #7: 16713 bytes OK
+2026/03/24-14:33:42.883 98a42e Delete type=0 #4
+2026/03/24-14:35:51.291 98a42e Level-0 table #9: started
+2026/03/24-14:35:51.314 98a42e Level-0 table #9: 35161 bytes OK
+2026/03/24-14:35:51.319 98a42e Delete type=0 #6
+2026/03/24-14:37:14.431 98a42e Level-0 table #11: started
+2026/03/24-14:37:14.454 98a42e Level-0 table #11: 23824 bytes OK
+2026/03/24-14:37:14.457 98a42e Delete type=0 #8
+2026/03/24-14:42:23.090 98a42e Level-0 table #13: started
+2026/03/24-14:42:23.099 98a42e Level-0 table #13: 27076 bytes OK
+2026/03/24-14:42:23.124 98a42e Delete type=0 #10
+2026/03/24-15:15:35.255 98a42e Level-0 table #15: started
+2026/03/24-15:15:35.266 98a42e Level-0 table #15: 32349 bytes OK
+2026/03/24-15:15:35.284 98a42e Delete type=0 #12
+2026/03/24-15:15:35.285 98a42e Compacting 4@0 + 1@1 files
+2026/03/24-15:15:35.288 98a42e Generated table #16@0: 891 keys, 126951 bytes
+2026/03/24-15:15:35.288 98a42e Compacted 4@0 + 1@1 files => 126951 bytes
+2026/03/24-15:15:35.288 98a42e compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/24-15:15:35.289 98a42e Delete type=2 #15
+2026/03/24-15:15:35.289 98a42e Delete type=2 #7
+2026/03/24-15:15:35.289 98a42e Delete type=2 #13
+2026/03/24-15:15:35.289 98a42e Delete type=2 #11
+2026/03/24-15:15:35.289 98a42e Delete type=2 #9
+2026/03/24-15:25:48.700 98a42e Level-0 table #18: started
+2026/03/24-15:25:48.721 98a42e Level-0 table #18: 161999 bytes OK
+2026/03/24-15:25:48.725 98a42e Delete type=0 #14
+2026/03/24-15:26:21.320 98a42f Level-0 table #20: started
+2026/03/24-15:26:21.323 98a42f Level-0 table #20: 157712 bytes OK
+2026/03/24-15:26:21.325 98a42f Delete type=0 #17
+2026/03/24-15:26:26.556 98a42e Level-0 table #22: started
+2026/03/24-15:26:26.570 98a42e Level-0 table #22: 23791 bytes OK
+2026/03/24-15:26:26.571 98a42e Delete type=0 #19
+2026/03/24-15:31:29.823 98a42e Level-0 table #24: started
+2026/03/24-15:31:29.830 98a42e Level-0 table #24: 14540 bytes OK
+2026/03/24-15:31:29.832 98a42e Delete type=0 #21
+2026/03/24-15:31:29.837 98a42e Compacting 4@0 + 1@1 files
+2026/03/24-15:31:29.847 98a42e Generated table #25@0: 1076 keys, 472760 bytes
+2026/03/24-15:31:29.847 98a42e Compacted 4@0 + 1@1 files => 472760 bytes
+2026/03/24-15:31:29.848 98a42e compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/24-15:31:29.848 98a42e Delete type=2 #16
+2026/03/24-15:31:29.849 98a42e Delete type=2 #20
+2026/03/24-15:31:29.849 98a42e Delete type=2 #22
+2026/03/24-15:31:29.849 98a42e Delete type=2 #18
+2026/03/24-15:31:29.849 98a42e Delete type=2 #24
+2026/03/24-15:38:29.840 98a42e Level-0 table #27: started
+2026/03/24-15:38:29.843 98a42e Level-0 table #27: 14157 bytes OK
+2026/03/24-15:38:29.847 98a42e Delete type=0 #23
+2026/03/24-15:46:59.522 98a42e Level-0 table #29: started
+2026/03/24-15:46:59.527 98a42e Level-0 table #29: 26873 bytes OK
+2026/03/24-15:46:59.542 98a42e Delete type=0 #26
+2026/03/24-16:02:34.778 98a42e Level-0 table #31: started
+2026/03/24-16:02:34.780 98a42e Level-0 table #31: 27367 bytes OK
+2026/03/24-16:02:34.783 98a42e Delete type=0 #28
+2026/03/24-16:36:37.692 98a42e Level-0 table #33: started
+2026/03/24-16:36:37.695 98a42e Level-0 table #33: 30182 bytes OK
+2026/03/24-16:36:37.696 98a42e Delete type=0 #30
+2026/03/24-16:36:37.700 98a42e Compacting 4@0 + 1@1 files
+2026/03/24-16:36:37.706 98a42e Generated table #34@0: 1236 keys, 481341 bytes
+2026/03/24-16:36:37.706 98a42e Compacted 4@0 + 1@1 files => 481341 bytes
+2026/03/24-16:36:37.707 98a42e compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/24-16:36:37.707 98a42e Delete type=2 #29
+2026/03/24-16:36:37.708 98a42e Delete type=2 #33
+2026/03/24-16:36:37.708 98a42e Delete type=2 #27
+2026/03/24-16:36:37.708 98a42e Delete type=2 #31
+2026/03/24-16:36:37.708 98a42e Delete type=2 #25
+2026/03/24-17:46:22.759 98a42e Level-0 table #36: started
+2026/03/24-17:46:22.763 98a42e Level-0 table #36: 82467 bytes OK
+2026/03/24-17:46:22.768 98a42e Delete type=0 #32
+2026/03/24-18:12:16.921 98a42e Level-0 table #38: started
+2026/03/24-18:12:16.926 98a42e Level-0 table #38: 22242 bytes OK
+2026/03/24-18:12:16.929 98a42e Delete type=0 #35

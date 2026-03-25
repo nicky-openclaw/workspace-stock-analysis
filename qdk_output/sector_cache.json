@@ -10,12 +10,61 @@
     "sector_main_inflow": "-937668592.0"
   },
   "300827.SH": {
-    "industry": "资金流向"
+    "industry": "电力设备",
+    "sector_change_pct": null,
+    "sector_main_inflow": null
   },
   "688680.SH": {
-    "industry": "资金流向"
+    "industry": "电力设备",
+    "sector_change_pct": null,
+    "sector_main_inflow": null
   },
   "301268.SH": {
-    "industry": "资金流向"
+    "industry": "机械设备",
+    "sector_change_pct": null,
+    "sector_main_inflow": null
+  },
+  "603787": {
+    "industry": "汽车",
+    "sector_change_pct": "-2.04%",
+    "sector_main_inflow": null
+  },
+  "300345": {
+    "industry": "电力设备",
+    "sector_change_pct": "-3.42%",
+    "sector_main_inflow": "-9385688320.0"
+  },
+  "000983": {
+    "industry": "煤炭",
+    "sector_change_pct": "1.21%",
+    "sector_main_inflow": "1180681008.0"
+  },
+  "300868": {
+    "industry": "电子",
+    "sector_change_pct": "-5.93%",
+    "sector_main_inflow": "-29571287552.0"
+  },
+  "002840": {
+    "industry": "食品加工",
+    "sector_change_pct": "-5.19%",
+    "sector_main_inflow": null
+  },
+  "002192": {
+    "industry": "有色金属",
+    "sector_change_pct": "3.68%",
+    "sector_main_inflow": "5898012160.0"
+  },
+  "300335": {
+    "industry": "公用事业",
+    "sector_change_pct": "4.44%",
+    "sector_main_inflow": "3047012096.0"
+  },
+  "000809": {
+    "industry": "房地产",
+    "sector_change_pct": "3.66%",
+    "sector_main_inflow": "-168017360.0"
+  },
+  "001289": {
+    "industry": "公用事业"
   }
 }

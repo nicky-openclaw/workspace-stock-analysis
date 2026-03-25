@@ -1,12 +1,12 @@
 {
   "date": "20260320",
   "framework": "qdk",
-  "note": "API限流，部分数据不可用，以下为已知数据",
+  "note": "2026-03-21补录：涨跌幅已补全，电力设备+1.57% 机械设备-1.59%，主力净流入 API查询无数据",
   "stocks": [
     {"code": "603165.SH", "name": "荣晟环保", "industry": "轻工制造", "sector_change_pct": "-2.11%", "sector_money_net": -937668592},
     {"code": "605099.SH", "name": "共创草坪", "industry": "轻工制造", "sector_change_pct": "-2.11%", "sector_money_net": -937668592},
-    {"code": "300827.SH", "name": "上能电气", "industry": "电力设备", "sector_change_pct": null, "sector_money_net": null},
-    {"code": "688680.SH", "name": "海优新材", "industry": "电力设备", "sector_change_pct": null, "sector_money_net": null},
-    {"code": "301268.SH", "name": "铭利达", "industry": null, "sector_change_pct": null, "sector_money_net": null}
+    {"code": "300827.SH", "name": "上能电气", "industry": "电力设备", "sector_change_pct": "+1.57%", "sector_money_net": null},
+    {"code": "688680.SH", "name": "海优新材", "industry": "电力设备", "sector_change_pct": "+1.57%", "sector_money_net": null},
+    {"code": "301268.SH", "name": "铭利达", "industry": "机械设备", "sector_change_pct": "-1.59%", "sector_money_net": null}
   ]
 }

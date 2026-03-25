@@ -1,0 +1,60 @@
+{
+  "600149": {
+    "industry": "公用事业",
+    "sector_change_pct": "-2.12%",
+    "sector_main_inflow": "-3768235264.0"
+  },
+  "603272": {
+    "industry": "轻工制造",
+    "sector_change_pct": "-5.74%",
+    "sector_main_inflow": "61267392.0"
+  },
+  "300868": {
+    "industry": "电子",
+    "sector_change_pct": "-5.93%",
+    "sector_main_inflow": "-29571287552.0"
+  },
+  "603787": {
+    "industry": "摩托车及其他",
+    "sector_change_pct": "-2.04%",
+    "sector_main_inflow": null
+  },
+  "300385": {
+    "industry": "环保",
+    "sector_change_pct": "-5.34%",
+    "sector_main_inflow": "-921176224.0"
+  },
+  "301309": {
+    "industry": "机械设备",
+    "sector_change_pct": "-5.66%",
+    "sector_main_inflow": "-8969208064.0"
+  },
+  "601908": {
+    "industry": "公用事业",
+    "sector_change_pct": "-2.12%",
+    "sector_main_inflow": null
+  },
+  "600075": {
+    "industry": "氯碱",
+    "sector_change_pct": "-2.12%",
+    "sector_main_inflow": null
+  },
+  "600744": {
+    "industry": "公用事业",
+    "sector_change_pct": "4.44%",
+    "sector_main_inflow": "3047012096.0"
+  },
+  "002082": {
+    "industry": "医药生物",
+    "sector_change_pct": "3.92%",
+    "sector_main_inflow": "729165824.0"
+  },
+  "300497": {
+    "industry": "医药生物",
+    "sector_change_pct": "3.92%",
+    "sector_main_inflow": "729165824.0"
+  },
+  "601016": {
+    "industry": "公用事业"
+  }
+}
