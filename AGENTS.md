@@ -355,6 +355,26 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 
 ---
 
+## 🧠 自主学习框架（self-improving）
+
+**目录**：`self-improving/`
+
+**核心文件**：
+- `memory.md` — HOT记忆（≤100行，重复3次以上的经验）
+- `corrections.md` — 纠正日志（用户纠正自动记录）
+- `heartbeat-state.md` — 心跳状态
+- `projects/stock-selection.md` — 选股框架学习
+- `projects/market-analysis.md` — 大盘分析学习
+- `projects/review_template.md` — 复盘报告模板
+
+**运行规则**：
+- 每次复盘后自动触发自我反思
+- 用户纠正 → 记录到 corrections.md → 判断是否升级到 memory.md
+- 重复3次以上的经验 → 升级到 memory.md（HOT）
+- 认知更新 → 记录到对应 projects/ 文件
+
+---
+
 ## 🔥 妙想 mx-skills 路由规则（金融问题默认调用）
 
 收到金融相关问题时，按以下原则选择 skill：
@@ -364,8 +384,14 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 | 筛选符合特定条件的股票/基金/行业板块 | mx-stocks-screener | "今日涨跌幅大于5%的A股" |
 | 联网检索金融资讯、公告、研报、市场热点 | mx-finance-search | "宁德时代近期公告" |
 | 查询 GDP、CPI、宏观政策等经济数据 | mx-macro-data | "中美近十年GDP对比" |
-| 查询股票/基金/债券的财务数据（PE/ROE/财报等）| mx-finance-data | "宁德时代PE和ROE" |
+| 查询股票/基金/债券的财务数据（PE/ROE/财报等）| eastmoney_financial_data | "宁德时代PE和ROE" |
+
+**已安装的 mx-skills：**
+- `mx-finance-search` — 金融资讯搜索（额度有限但数据权威）
+- `mx-stocks-screener` — 智能选股
+- `mx-macro-data` — 宏观数据
 
 **注意**：
 - 混合问题时，按主要需求选择最合适的一个 skill
 - 需要多个 skill 综合分析时，依次调用，分别获取数据后再整合
+- 额度用尽时，回退到新浪/腾讯API + agent-browser
