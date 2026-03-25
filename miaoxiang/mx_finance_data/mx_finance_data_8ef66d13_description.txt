@@ -1,0 +1,8 @@
+金融数据查询结果说明
+========================================
+查询内容: 劲拓股份今天属于哪个行业板块？这个行业板块今日主力资金净流入是多少？
+数据文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_8ef66d13.xlsx
+描述文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_8ef66d13_description.txt
+数据行数: 1
+表数量: 1
+Sheet 列表: 劲拓股份(300400.SZ)当前的所属行业板块

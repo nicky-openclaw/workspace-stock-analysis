@@ -1,0 +1,8 @@
+金融数据查询结果说明
+========================================
+查询内容: 农林牧渔 板块 今日涨跌幅 主力净流入
+数据文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_cc36de58.xlsx
+描述文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_cc36de58_description.txt
+数据行数: 40
+表数量: 5
+Sheet 列表: 农林牧渔等的收盘价(流通股本加权平均)、成交量(合计)等, 农林牧渔等的成份区间涨跌幅(总市值加权平均)、成份区间成交量(, 农林牧渔等的上周涨跌幅、本周涨跌幅, 农林牧渔等的区间成交额、区间日均换手率(整体法), 农林牧渔(申万)当前的最新价、涨跌幅等

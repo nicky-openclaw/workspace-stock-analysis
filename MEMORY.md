@@ -82,3 +82,23 @@ memory/patrol/
 
 - 腾讯API: `https://qt.gtimg.cn/q=`
 - 股票群: `oc_5079867a1fd5155704772dc651c7d230`
+
+---
+
+## 2026-03-25 重要更新
+
+### mx skills 正确配置路径
+- skill文件位置: ~/.openclaw/workspace/skills/
+- OpenClaw扫描路径: ~/.openclaw/skills/ 和 ~/.agents/skills/
+- 解决方法: 软链接 `ln -s ~/.openclaw/workspace/skills/mx-xxx ~/.openclaw/skills/mx-xxx`
+- Gateway restart后生效
+
+### 板块数据获取 v4.3（sector_analysis_v4.py）
+分工:
+- mx_finance_data: 行业归属 + 板块涨跌幅（自然语言一次搞定）
+- eastmoney_financial_data: 板块主力净额（f62字段，JSON稳定）
+- API调用: 3次/股 → 2次/股
+
+### feishu_create_doc 不稳定
+现象: 工具在部分session可用，部分不可用
+状态: 插件已注册但session级加载不稳定

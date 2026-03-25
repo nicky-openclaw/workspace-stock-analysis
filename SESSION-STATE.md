@@ -71,3 +71,49 @@
 | 御银股份(002177) | +4.32% | ❌ 无 | 资金驱动 | 龙虎榜净买入/高换手41% |
 
 **结论**：3只上涨股票中，2只自身题材/资金驱动，1只有明显板块效应
+
+## 2026-03-25 纠正记录
+
+纠正: 用户指出报告不合格
+错误: QDK报告缺少框架要求的8个板块（只写了2个）
+正确认知:
+- qdk_scores.json 路径: qdk_output/qdk_scores.json
+- feishu_create_doc 工具可用，message工具调用方式有误
+- 每次选股任务必须先读框架文件再执行
+- 报告写入前必须逐项对照框架核查
+
+## 2026-03-25 完整Session记录
+
+### mx skills 配置问题
+问题: 4个mx skill文件在 ~/.openclaw/workspace/skills/ 但不在OpenClaw扫描路径
+解决: 软链接到 ~/.openclaw/skills/ 后gateway restart，4个skill全部正常加载
+确认: openclaw skills list 可看到 mx_finance_data/mx_finance_search/mx_macro_data/mx_stocks_screener
+
+### QDK选股（2026-03-25）
+- 95只条件股 → 5只满分入选
+- 报告首版缺少框架要求的8个输出板块，被用户纠正
+- 教训: 必须先读框架文件再执行报告生成
+- 复盘写入: memory/pitfalls/2026-03-25-qdk-report-incomplete.md
+
+### ZTX选股（2026-03-25）
+- 41只条件股 → 涨停12只/非涨停26只
+- mx_finance_data测试: 自然语言有效，但返回xlsx(需openpyxl解析)，主力字段有时不完整
+- eastmoney_financial_data: JSON稳定，主力f62字段可靠
+- 分工优化: mx获取行业+涨跌，eastmoney获取主力净额，API调用从3次/股→2次/股
+
+### feishu_create_doc 工具问题
+问题: 工具在QDK时可用，ZTX时不可用（session级不稳定）
+状态: 插件已注册但工具未进入当前可用列表
+影响: 报告暂存本地md，飞书文档创建需用户协助排查
+
+### 框架文件更新
+- sector_analysis_v4.py → v4.3（mx+eastmoney分工）
+- qdk_framework_v4.md → v4.6
+- ztx_framework_v3.md → v3.4
+- b1_framework_v3.md → v3.4
+- AGENTS.md → 新增板块数据分工说明章节
+
+### 关键路径记忆
+- qdk_scores.json: ~/.openclaw/workspace-stock-analysis/qdk_output/qdk_scores.json
+- ztx_scores.json: ~/.openclaw/workspace-stock-analysis/ztx_output/ztx_scores.json
+- 板块缓存: ~/.openclaw/workspace-stock-analysis/[framework]_output/sector_cache.json

@@ -1,0 +1,8 @@
+金融数据查询结果说明
+========================================
+查询内容: 深纺织A的申万行业分类是什么？这个行业板块今日涨跌幅和主力资金流向？
+数据文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_7feaa8b1.xlsx
+描述文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_7feaa8b1_description.txt
+数据行数: 1
+表数量: 1
+Sheet 列表: 深纺织A(000045.SZ)的所属申万行业指数名称

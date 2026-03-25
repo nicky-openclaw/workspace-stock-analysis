@@ -1,7 +1,7 @@
 # B1框架 SOP v3.2
 
 > 更新日期：2026-03-13
-> 版本：v3.3（统一板块数据获取流程，对齐AGENTS.md）
+> 版本：v3.4（更新板块数据获取分工：mx自然语言获取行业+涨跌，eastmoney获取主力净额）
 
 ---
 
@@ -36,11 +36,12 @@ B1选股框架，五层综合评分体系。
 4. **综合评分**：b1_step4_score.py
 5. **板块效应分析**：
    - 运行 `python3 scripts/sector_analysis_v4.py --framework b1` 获取个股所属板块和资金流
-   - **数据获取优先级（v3.3）：**
+   - **数据获取优先级（v3.4）：**
      1. 腾讯API → 个股涨跌幅
-     2. **eastmoney_financial_data skill** → 行业+板块涨跌+主力净额
-     3. agent-browser → 补齐行业（备用）
-     4. QVeris → 保底
+     2. **mx_finance_data skill** → 行业归属+板块涨跌幅（自然语言一次搞定）
+     3. **eastmoney_financial_data skill** → 板块主力净额（JSON稳定解析，f62字段）
+     4. agent-browser → 补齐行业（mx和eastmoney都失败时）
+     5. QVeris → 保底
 
    **⚠️ Step 5.1（强制检查点）：验证板块数据**
    - 板块分析完成后，必须读取 `b1_output/sector_analysis.json`

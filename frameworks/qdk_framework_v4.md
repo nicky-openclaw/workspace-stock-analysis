@@ -1,7 +1,7 @@
 # 启动K框架 SOP v4.5
 
 > 更新日期：2026-03-19
-> 版本：v4.5（统一板块数据获取流程，对齐AGENTS.md）
+> 版本：v4.6（更新板块数据获取分工：mx自然语言获取行业+涨跌，eastmoney获取主力净额）
 
 ---
 
@@ -41,11 +41,12 @@
 5. **综合评分**：qdk_step4_score.py
 6. **板块效应分析**：
    - 运行 `python3 scripts/sector_analysis_v4.py --framework qdk` 获取个股所属板块和资金流
-   - **数据获取优先级（v4.5）：**
+   - **数据获取优先级（v4.6）：**
      1. 腾讯API → 个股涨跌幅
-     2. **eastmoney_financial_data skill** → 行业+板块涨跌+主力净额
-     3. agent-browser → 补齐行业（备用）
-     4. QVeris → 保底
+     2. **mx_finance_data skill** → 行业归属+板块涨跌幅（自然语言一次搞定）
+     3. **eastmoney_financial_data skill** → 板块主力净额（JSON稳定解析，f62字段）
+     4. agent-browser → 补齐行业（mx和eastmoney都失败时）
+     5. QVeris → 保底
 
    **⚠️ Step 6.1（强制检查点）：验证板块数据**
    - 板块分析完成后，必须读取 `qdk_output/sector_analysis.json`
@@ -104,11 +105,12 @@
 |------|---------|---------|---------|---------|
 | ×××× | ××× | +×.××% | +×.×亿/-×.×亿 | 🟢强/🟡中/🔴弱/-无 |
 
-**板块数据查询优先级（与执行流程 Step6 一致）：**
+**板块数据查询优先级（v4.6）：**
 1. 腾讯API → 个股涨跌幅
-2. **eastmoney_financial_data skill** → 行业+板块涨跌+主力净额
-3. agent-browser → 补齐行业（备用）
-4. QVeris → 保底
+2. **mx_finance_data** → 行业归属+板块涨跌幅（自然语言一次搞定）
+3. **eastmoney_financial_data** → 板块主力净额（f62字段，JSON稳定解析）
+4. agent-browser → 补齐行业（两者都失败时）
+5. QVeris → 保底
 
 **【关键】API失败时的备用方案：**
 - 当 eastmoney_financial_data skill 返回空数据时，**直接切换 agent-browser**

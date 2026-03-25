@@ -1,0 +1,8 @@
+金融数据查询结果说明
+========================================
+查询内容: 深纺织A今天属于哪个板块？这个板块今日涨跌幅和主力资金净流入是多少？
+数据文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_4e73adf1.xlsx
+描述文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_4e73adf1_description.txt
+数据行数: 16
+表数量: 3
+Sheet 列表: 深纺织A(000045.SZ)的所属概念板块, AB股等的涨跌幅, 深纺织A(000045.SZ)所属概念板块

@@ -66,5 +66,23 @@
   },
   "001289": {
     "industry": "公用事业"
+  },
+  "600158": {
+    "industry": "社会服务",
+    "sector_change_pct": "2.36%",
+    "sector_main_inflow": "159227984.0"
+  },
+  "605005": {
+    "industry": "汽车",
+    "sector_change_pct": "1.94%",
+    "sector_main_inflow": "-299825408.0"
+  },
+  "300383": {
+    "industry": "通信",
+    "sector_change_pct": "3.71%",
+    "sector_main_inflow": "7125960704.0"
+  },
+  "301419": {
+    "industry": "通信"
   }
 }

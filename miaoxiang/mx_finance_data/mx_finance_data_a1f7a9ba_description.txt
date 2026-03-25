@@ -1,0 +1,8 @@
+金融数据查询结果说明
+========================================
+查询内容: 冠农股份 所属行业 今日板块涨跌幅 主力净流入
+数据文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_a1f7a9ba.xlsx
+描述文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_a1f7a9ba_description.txt
+数据行数: 7
+表数量: 1
+Sheet 列表: 冠农股份(600251.SH)当前所属行业

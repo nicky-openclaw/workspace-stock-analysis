@@ -56,5 +56,38 @@
   },
   "601016": {
     "industry": "公用事业"
+  },
+  "600251": {
+    "industry": "农林牧渔",
+    "sector_change_pct": "1.70%",
+    "sector_main_inflow": "614242864.0"
+  },
+  "600433": {
+    "industry": "轻工制造",
+    "sector_change_pct": "1.87%",
+    "sector_main_inflow": "-568679104.0"
+  },
+  "603958": {
+    "industry": "纺织服饰",
+    "sector_change_pct": "2.48%",
+    "sector_main_inflow": "89481760.0"
+  },
+  "300658": {
+    "industry": "美容护理",
+    "sector_change_pct": "1.65%",
+    "sector_main_inflow": "55217659.0"
+  },
+  "601999": {
+    "industry": "传媒",
+    "sector_change_pct": "2.18%",
+    "sector_main_inflow": "-251386768.0"
+  },
+  "002281": {
+    "industry": "通信",
+    "sector_change_pct": "3.71%",
+    "sector_main_inflow": "7125960704.0"
+  },
+  "300246": {
+    "industry": "医药生物"
   }
 }

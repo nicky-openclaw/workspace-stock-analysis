@@ -1,0 +1,8 @@
+金融数据查询结果说明
+========================================
+查询内容: 自动化设备板块今日涨跌幅是多少？主力资金净流入还是净流出？有多少亿？
+数据文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_3af08810.xlsx
+描述文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_3af08810_description.txt
+数据行数: 24
+表数量: 3
+Sheet 列表: 自动化设备(申万)的成份区间涨跌幅(流通市值加权平均)、(区间, 自动化设备(申万)的涨跌幅, 自动化设备(申万)当前的超大单净额、超大单流出等

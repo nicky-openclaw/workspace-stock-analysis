@@ -1,0 +1,8 @@
+金融数据查询结果说明
+========================================
+查询内容: 电子板块今日涨跌多少？主力资金净流入多少亿？
+数据文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_3626e04d.xlsx
+描述文件路径: /Users/nicky/.openclaw/workspace-stock-analysis/miaoxiang/mx_finance_data/mx_finance_data_3626e04d_description.txt
+数据行数: 14
+表数量: 2
+Sheet 列表: 电子(申万)等的涨跌幅, 电子等的成份区间涨跌幅(流通市值加权平均)、(区间)净流入量(

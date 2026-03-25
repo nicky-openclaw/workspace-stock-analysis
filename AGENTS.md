@@ -386,10 +386,22 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 | 查询 GDP、CPI、宏观政策等经济数据 | mx-macro-data | "中美近十年GDP对比" |
 | 查询股票/基金/债券的财务数据（PE/ROE/财报等）| eastmoney_financial_data | "宁德时代PE和ROE" |
 
-**已安装的 mx-skills：**
-- `mx-finance-search` — 金融资讯搜索（额度有限但数据权威）
-- `mx-stocks-screener` — 智能选股
-- `mx-macro-data` — 宏观数据
+---
+
+### 📊 板块数据获取分工（选股任务专用）
+
+选股板块分析时，两个数据 skill 按以下分工：
+
+| 数据需求 | 调用 Skill | 原因 |
+|---------|-----------|------|
+| 行业归属 + 板块涨跌幅 | **mx_finance_data**（首选） | 自然语言一次搞定多字段，减少API调用 |
+| 板块主力净额 | **eastmoney_financial_data** | JSON稳定解析，f62字段可靠 |
+| 保底行业归属 | eastmoney_financial_data | 自然语言失败时的fallback |
+| 最终保底 | agent-browser | 两者都失败时使用东方财富页面 |
+
+**API调用优化（v4.3）：**
+- 原策略：每只股票 2次（行业+板块涨跌）+ 1次（主力）= 3次/股
+- 新策略：每只股票 1次（行业+涨跌，mx自然语言）+ 1次（主力，eastmoney JSON）= 2次/股
 
 **注意**：
 - 混合问题时，按主要需求选择最合适的一个 skill

@@ -1,7 +1,7 @@
 # 砖型图框架 SOP v3.2
 
 > 更新日期：2026-03-13
-> 版本：v3.3（统一板块数据获取流程，对齐AGENTS.md）
+> 版本：v3.4（更新板块数据获取分工：mx自然语言获取行业+涨跌，eastmoney获取主力净额）
 
 ---
 
@@ -43,11 +43,12 @@
 4. **综合评分**：ztx_step4_score.py
 5. **板块效应分析**：
    - 运行 `python3 scripts/sector_analysis_v4.py --framework ztx` 获取个股所属板块和资金流
-   - **数据获取优先级（v3.3）：**
+   - **数据获取优先级（v3.4）：**
      1. 腾讯API → 个股涨跌幅
-     2. **eastmoney_financial_data skill** → 行业+板块涨跌+主力净额
-     3. agent-browser → 补齐行业（备用）
-     4. QVeris → 保底
+     2. **mx_finance_data skill** → 行业归属+板块涨跌幅（自然语言一次搞定）
+     3. **eastmoney_financial_data skill** → 板块主力净额（JSON稳定解析，f62字段）
+     4. agent-browser → 补齐行业（mx和eastmoney都失败时）
+     5. QVeris → 保底
 
    **⚠️ Step 5.1（强制检查点）：验证板块数据**
    - 板块分析完成后，必须读取 `ztx_output/sector_analysis.json`
@@ -123,7 +124,7 @@
 |------|-------|----------|
 | ××× | +×.××% | +×.×亿 |
 
-注：板块主力净流入获取受限（eastmoney API额度）时标注"受限"，不影响板块涨跌数据。
+注：板块主力净流入由eastmoney_financial_data的f62字段提供，稳定可靠。行业+涨跌由mx_finance_data自然语言获取，若失败则回退eastmoney。
 
 ### 8. 明日交易决策 Checklist
 

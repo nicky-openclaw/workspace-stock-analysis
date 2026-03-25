@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """
-板块效应分析 v4.2
+板块效应分析 v4.3
 数据获取优先级：
 1. 腾讯API → 个股涨跌幅（免费）
-2. eastmoney_financial_data → 行业归属+板块涨跌幅+主力净额（约1次/板块）
-3. agent-browser → 补齐行业归属（eastmoney_financial_data失败时）
-4. QVeris → 保底（仅当前三步都失败时使用）
+2. mx_finance_data → 行业归属+板块涨跌幅（一次自然语言查询搞定）
+3. eastmoney_financial_data → 主力净额（JSON稳定解析）
+4. agent-browser → 补齐行业（两者都失败时）
+
+v4.3优化：
+- mx_finance_data 作为行业+板块涨跌的首选（一次自然语言搞定多字段）
+- eastmoney_financial_data 专攻主力净额（稳定JSON解析）
+- 减少API调用次数（从2次/股→1次行业涨跌+1次主力）
 """
 
 import json
@@ -14,15 +19,20 @@ import os
 import sys
 import argparse
 import urllib.request
+import asyncio
+import openpyxl
 from pathlib import Path
 from datetime import datetime
 
 WORKSPACE = Path("/Users/nicky/.openclaw/workspace-stock-analysis")
-QVERIS_SCRIPT = Path.home() / ".openclaw/skills/qveris-official/scripts/qveris_tool.mjs"
-QVERIS_API_KEY = "sk-PxV8UWOz7UcoaU6yt0rsAfrzmTpSAyW70Qge8jsj-8g"
+MX_SCRIPT = Path.home() / ".openclaw/workspace/skills/mx-finance-data/scripts/get_data.py"
 EASTMONEY_APIKEY = "mkt_ed_FmsusuPQr6aZCpqc2Pgof6l7gGbnvS_riNSxtGeI"
 EASTMONEY_DATA_URL = "https://mkapi2.dfcfs.com/finskillshub/api/claw/query"
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 工具函数
+# ══════════════════════════════════════════════════════════════════════════════
 
 def get_stock_tencent(codes: list) -> dict:
     """腾讯API获取个股涨跌幅"""
@@ -49,18 +59,17 @@ def get_stock_tencent(codes: list) -> dict:
 
 
 def get_industry_browser(code: str) -> str:
-    """用agent-browser获取个股行业归属"""
+    """用agent-browser获取个股行业归属（最终保底）"""
     try:
         if code.startswith('6') or code.startswith('688'):
             url = f"https://quote.eastmoney.com/sh{code}.html"
         else:
             url = f"https://quote.eastmoney.com/sz{code}.html"
-        
-        r1 = subprocess.run(["agent-browser", "open", url], 
+        r1 = subprocess.run(["agent-browser", "open", url],
                            capture_output=True, text=True, timeout=15)
-        subprocess.run(["agent-browser", "wait", "2000"], 
+        subprocess.run(["agent-browser", "wait", "2000"],
                       capture_output=True, text=True, timeout=5)
-        r2 = subprocess.run(["agent-browser", "get", "text", "@e89"], 
+        r2 = subprocess.run(["agent-browser", "get", "text", "@e89"],
                            capture_output=True, text=True, timeout=10)
         industry = r2.stdout.strip()
         if industry and len(industry) < 20:
@@ -69,6 +78,85 @@ def get_industry_browser(code: str) -> str:
         pass
     return ""
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# mx_finance_data（自然语言查询，行业+板块涨跌一次搞定）
+# ══════════════════════════════════════════════════════════════════════════════
+
+def get_industry_sector_from_mx(stock_code: str, stock_name: str) -> dict:
+    """
+    用mx_finance_data自然语言查询行业归属+板块涨跌幅。
+    一次查询返回行业（申万）+ 板块涨跌，返回xlsx需openpyxl解析。
+    成功返回 {"industry": "电子", "sector_change_pct": "2.65%"}，失败返回空dict。
+    """
+    try:
+        query = (
+            f"{stock_name}({stock_code})属于什么行业？"
+            f"今日这个行业的涨跌幅是多少？"
+        )
+        result = subprocess.run(
+            ["python3", str(MX_SCRIPT), "--query", query],
+            capture_output=True, text=True, timeout=60,
+            env={**os.environ, "EM_API_KEY": os.environ.get("EM_API_KEY", "")}
+        )
+        if result.returncode != 0:
+            return {}
+
+        # 解析xlsx文件路径（从stdout最后两行提取）
+        stdout = result.stdout.strip()
+        lines = [l for l in stdout.split('\n') if l.startswith('文件:')]
+        if not lines:
+            return {}
+        xlsx_path = lines[-1].replace('文件:', '').strip()
+
+        if not Path(xlsx_path).exists():
+            return {}
+
+        # 解析xlsx：取第一个sheet的数据
+        wb = openpyxl.load_workbook(xlsx_path)
+        industry = ""
+        sector_change = ""
+
+        for sheet_name in wb.sheetnames:
+            ws = wb[sheet_name]
+            rows = list(ws.iter_rows(values_only=True))
+            # 扫描所有行，匹配行业关键词
+            for row in rows:
+                row_str = ' '.join([str(c) if c else '' for c in row])
+                # 找行业（申万行业）
+                if ('申万' in row_str or '行业分类' in row_str) and not industry:
+                    for cell in row:
+                        if cell and ('行业' in str(cell) or '申万' in str(cell)):
+                            ind = str(cell).replace('(申万)', '').strip()
+                            if ind and len(ind) < 15:
+                                industry = ind
+                # 找涨跌幅
+                if ('涨跌幅' in row_str or '%' in row_str) and not sector_change:
+                    for i, cell in enumerate(row):
+                        val_str = str(cell) if cell else ''
+                        if val_str.replace('.', '').replace('-', '').isdigit() or (val_str.endswith('%') and i > 0):
+                            try:
+                                if val_str.endswith('%'):
+                                    sector_change = val_str
+                                elif '.' in val_str:
+                                    sector_change = f"{float(val_str):.2f}%"
+                            except:
+                                pass
+
+        if industry or sector_change:
+            return {
+                "industry": industry,
+                "sector_change_pct": sector_change
+            }
+        return {}
+
+    except Exception as e:
+        return {}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# eastmoney_financial_data（JSON稳定解析，主力净额专用）
+# ══════════════════════════════════════════════════════════════════════════════
 
 def get_industry_from_eastmoney(stock_code: str, stock_name: str) -> dict:
     """用eastmoney_financial_data获取个股所属行业（申万行业）"""
@@ -91,8 +179,6 @@ def get_industry_from_eastmoney(stock_code: str, stock_name: str) -> dict:
             return {}
         t = tables[0]
         raw = t.get('rawTable', {}) or t.get('table', {})
-        # raw = {"100000000021213": ["轻工制造(申万)"], "headName": [" "]}
-        # 找到第一个非headName的key
         industry = ""
         for k, v in raw.items():
             if k != 'headName' and isinstance(v, list) and v:
@@ -103,17 +189,15 @@ def get_industry_from_eastmoney(stock_code: str, stock_name: str) -> dict:
         return {}
 
 
-def get_sector_data_eastmoney(stock_code: str, stock_name: str) -> dict:
-    """用eastmoney_financial_data获取个股所属行业板块涨跌幅和主力净额"""
+def get_main_inflow_from_eastmoney(industry: str) -> dict:
+    """
+    用eastmoney_financial_data获取指定行业板块的主力净额（f62字段，稳定JSON）。
+    返回 {"sector_main_inflow": "xxx"}，失败返回空dict。
+    """
+    if not industry:
+        return {}
     try:
-        # 先获取行业
-        ind_result = get_industry_from_eastmoney(stock_code, stock_name)
-        industry = ind_result.get('industry', '')
-        if not industry:
-            return {}
-        
-        # 再用行业名查板块涨跌幅和主力净额
-        query = f"{industry}行业今日涨跌幅主力净流入"
+        query = f"{industry}行业今日主力净流入多少亿？"
         payload = json.dumps({"toolQuery": query}).encode()
         req = urllib.request.Request(
             EASTMONEY_DATA_URL,
@@ -128,33 +212,24 @@ def get_sector_data_eastmoney(stock_code: str, stock_name: str) -> dict:
         d = json.loads(resp.read())
         tables = d.get('data',{}).get('data',{}).get('searchDataResultDTO',{}).get('dataTableDTOList',[])
         if not tables:
-            return {'industry': industry}
-        
+            return {}
         t = tables[0]
         raw = t.get('rawTable', {}) or t.get('table', {})
-        f3 = raw.get('f3', [None])[0] if isinstance(raw.get('f3'), list) else raw.get('f3')
         f62 = raw.get('f62', [None])[0] if isinstance(raw.get('f62'), list) else raw.get('f62')
-        # f3可能是 "-1.59" 或 "-1.59%" 格式
-        if f3 and not str(f3).endswith('%'):
-            try:
-                f3 = f"{float(f3):.2f}%"
-            except:
-                pass
-        return {
-            'industry': industry,
-            'sector_change_pct': f3,
-            'sector_main_inflow': f62,
-        }
+        return {'sector_main_inflow': f62}
     except Exception as e:
         return {}
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 格式化
+# ══════════════════════════════════════════════════════════════════════════════
 
 def format_money(val):
     if val is None or val == 'N/A':
         return "N/A"
     try:
         s = str(val)
-        # 已经是格式化字符串（如 -3.161亿元）
         if '亿' in s or '万' in s:
             return s.replace('元','')
         f = float(s)
@@ -163,6 +238,7 @@ def format_money(val):
         return f"{f:+.0f}"
     except:
         return str(val)
+
 
 def format_pct(val):
     if val is None or val == 'N/A':
@@ -175,6 +251,10 @@ def format_pct(val):
     except:
         return s
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 主流程
+# ══════════════════════════════════════════════════════════════════════════════
 
 def analyze(framework: str, top_n: int = 10):
     today = datetime.now().strftime("%Y-%m-%d")
@@ -217,31 +297,86 @@ def analyze(framework: str, top_n: int = 10):
         with open(cache_file) as f:
             sector_cache = json.load(f)
 
-    # Step 2: eastmoney_financial_data获取行业+板块数据
-    print("\n⏳ Step 2: eastmoney_financial_data获取板块数据...")
+    # Step 2: mx_finance_data 获取行业+板块涨跌（自然语言，一次搞定）
+    print("\n⏳ Step 2: mx_finance_data获取行业+板块涨跌...")
+    mx_count = 0
+    for s in all_stocks:
+        code, name = s["code"], s["name"]
+        # 已有完整数据则跳过
+        c = sector_cache.get(code, {})
+        if c.get("industry") and c.get("sector_change_pct"):
+            continue
+        # 优先用mx自然语言获取
+        if not c.get("industry") or not c.get("sector_change_pct"):
+            result = get_industry_sector_from_mx(code, name)
+            if result:
+                sector_cache[code] = {**c, **result}
+                mx_count += 1
+                ind = result.get('industry', 'N/A')
+                chg = result.get('sector_change_pct', 'N/A')
+                print(f"  ✅ {name}: 行业={ind}, 涨跌={chg}")
+    print(f"  共获取 {mx_count} 条数据")
+
+    # Step 3: eastmoney_financial_data 补充主力净额
+    print("\n⏳ Step 3: eastmoney_financial_data获取主力净额...")
     em_count = 0
     for s in all_stocks:
         code, name = s["code"], s["name"]
-        # 获取行业归属
-        if code not in sector_cache or not sector_cache.get(code, {}).get("industry"):
-            result = get_industry_from_eastmoney(code, name)
-            if result.get('industry'):
-                sector_cache[code] = sector_cache.get(code, {})
-                sector_cache[code].update(result)
+        c = sector_cache.get(code, {})
+        industry = c.get("industry", "")
+        # 有行业但缺主力净额
+        if industry and not c.get("sector_main_inflow"):
+            inflow_result = get_main_inflow_from_eastmoney(industry)
+            if inflow_result:
+                sector_cache[code] = {**c, **inflow_result}
                 em_count += 1
-                print(f"  ✅ {name}: 行业={result.get('industry','')}")
-        # 获取板块涨跌幅和主力净额
-        if not sector_cache.get(code, {}).get("sector_change_pct"):
-            result = get_sector_data_eastmoney(code, name)
-            if result:
-                sector_cache[code] = sector_cache.get(code, {})
-                sector_cache[code].update(result)
-                em_count += 1
-                print(f"  ✅ {name}: 涨跌={result.get('sector_change_pct','N/A')}, 主力={result.get('sector_main_inflow','N/A')}")
-    print(f"  共获取 {em_count} 条数据（消耗约{em_count}次额度）")
+                print(f"  ✅ {name}({industry}): 主力={inflow_result.get('sector_main_inflow', 'N/A')}")
+    print(f"  共获取 {em_count} 条数据")
 
-    # Step 3: agent-browser补齐行业归属（eastmoney_financial_data失败时）
-    print("\n⏳ Step 3: agent-browser补齐缺失行业...")
+    # Step 4: eastmoney_financial_data 补充缺失的行业+涨跌
+    print("\n⏳ Step 4: eastmoney_financial_data补齐行业和板块涨跌...")
+    em_count2 = 0
+    for s in all_stocks:
+        code, name = s["code"], s["name"]
+        c = sector_cache.get(code, {})
+        # 缺行业
+        if not c.get("industry"):
+            ind_result = get_industry_from_eastmoney(code, name)
+            if ind_result.get('industry'):
+                sector_cache[code] = {**c, **ind_result}
+                em_count2 += 1
+                print(f"  ✅ {name}: 行业={ind_result.get('industry','')}")
+        # 有行业但缺板块涨跌
+        if sector_cache.get(code, {}).get("industry") and not sector_cache[code].get("sector_change_pct"):
+            industry = sector_cache[code]["industry"]
+            # 查板块涨跌
+            try:
+                query = f"{industry}行业今日涨跌幅"
+                payload = json.dumps({"toolQuery": query}).encode()
+                req = urllib.request.Request(
+                    EASTMONEY_DATA_URL,
+                    data=payload,
+                    headers={'Content-Type': 'application/json', 'apikey': EASTMONEY_APIKEY},
+                    method='POST'
+                )
+                resp = urllib.request.urlopen(req, timeout=15)
+                d = json.loads(resp.read())
+                tables = d.get('data',{}).get('data',{}).get('searchDataResultDTO',{}).get('dataTableDTOList',[])
+                if tables:
+                    raw = tables[0].get('rawTable', {}) or tables[0].get('table', {})
+                    f3 = raw.get('f3', [None])[0] if isinstance(raw.get('f3'), list) else raw.get('f3')
+                    if f3:
+                        f3_str = f3 if str(f3).endswith('%') else f"{float(f3):.2f}%"
+                        sector_cache[code]["sector_change_pct"] = f3_str
+                        em_count2 += 1
+                        print(f"  ✅ {name}: 涨跌={f3_str}")
+            except:
+                pass
+    if em_count2:
+        print(f"  共补齐 {em_count2} 条数据")
+
+    # Step 5: agent-browser 最终保底行业
+    print("\n⏳ Step 5: agent-browser补齐缺失行业...")
     browser_count = 0
     for s in all_stocks:
         code = s["code"]
@@ -275,9 +410,11 @@ def analyze(framework: str, top_n: int = 10):
         sector_inflow = c.get("sector_main_inflow", "N/A")
         print(f"{code:<8} {name:<10} {change:>+6.2f}% {industry:<14} {format_pct(sector_change):>8} {format_money(sector_inflow):>12}")
 
+    total_calls = mx_count + em_count + em_count2
     print(f"\n✅ 分析完成！")
     print(f"  腾讯API: 获取涨跌幅")
-    print(f"  eastmoney_financial_data: 获取板块数据 {em_count}条（约{em_count}次额度）")
+    print(f"  mx_finance_data: 行业+板块涨跌 {mx_count}次")
+    print(f"  eastmoney_financial_data: 主力净额 {em_count}次 + 补齐 {em_count2}次")
     print(f"  agent-browser: 补齐行业 {browser_count}只")
 
 
