@@ -35,6 +35,116 @@
 
 ---
 
+## ⚡ Rule W-End: WAL 归档（每次会话结束）
+
+**触发时机**：会话完成、任务结束、或用户说"没了/就这样"时
+
+**操作步骤**：
+1. 读 `SESSION-STATE.md`（如有内容）
+2. 找到所有 `错误：原认知 → 正确认知` 条目，逐一处理：
+   - **追加**到 `self-improving/corrections.md`，格式：
+     ```
+     ## [CRR-YYYYMMDD-XXX]
+     **触发词**: xxx
+     **错误认知**: xxx
+     **正确认知**: xxx
+     **教训**: xxx
+     **来源**: SESSION-STATE
+     ```
+   - XXX 为当日序号（从 001 开始，同一日按顺序累加）
+3. 清空 `SESSION-STATE.md`
+4. 读 `corrections.md` 最后 10 条，检查是否有重复模式：
+   - 同一教训出现 ≥3 次 → 晋升到 `memory.md`（HOT），格式：
+     ```
+     ## [HOT-PROMO-YYYYMMDD] 教训标题
+     **CRR**: CRR-YYYYMMDD-XXX 等
+     **原则**: 具体行为规则
+     **触发条件**: 何时适用
+     ```
+   - 在原 CRR 条目加 `**Promoted**: HOT memory`
+
+---
+
+## ⚡ Rule M: 记忆主动保存（防止会话重置丢失）
+
+**触发条件（以下任一满足即触发）**：
+- 单次任务完成时
+- 对话超过 10 轮时
+- 用户表示"没了/就这样/结束"时
+- 任何重要决策/教训/偏好产生时（立即保存，不要等会话结束）
+
+**保存内容**：
+1. 完成的任务和结论
+2. 用户偏好和纠正
+3. 待办事项
+4. 重要上下文（选股结果/报告结构/关键决策）
+
+**文件**：`memory/YYYY-MM-DD.md`
+
+**格式**：
+```markdown
+# YYYY-MM-DD 会话记录
+
+## 完成任务
+- xxx
+
+## 重要决策
+- xxx
+
+## 待办
+- [ ] xxx
+
+## 教训/偏好
+- xxx
+```
+
+**禁止**：
+- ❌ 等待 context 满了才保存
+- ❌ 重要内容只记在脑中不写文件
+
+## 🧠 Rule S: Self-Improving 即时记录（每次任务后）
+
+**每次任务结束后执行两步：**
+
+### Step 1：自我反思（Self-Reflection）
+完成以下类型任务后，强制自问：
+- 多步骤任务
+- 用户提供了反馈（正面或负面）
+- 修复了 bug 或错误
+- 主动发现输出可以更好
+
+**自问格式：**
+```
+CONTEXT: [任务类型]
+REFLECTION: [这次是否达到预期？发现了什么问题？]
+LESSON: [下次如何改进？]
+```
+如果 LESSON 涉及 pattern → 写入 corrections.md 并标记待确认。
+
+### Step 2：记录与归档
+
+| 情况 | 记录位置 | 格式 |
+|------|---------|------|
+| 用户纠正了你 | `.learnings/LEARNINGS.md` | CRR-YYYYMMDD-NNN，category=correction |
+| 命令/工具执行失败 | `.learnings/ERRORS.md` | ERR-YYYYMMDD-NNN |
+| 发现更好的方法 | `.learnings/LEARNINGS.md` | LRN-YYYYMMDD-NNN，category=best_practice |
+| 用户要求不存在的能力 | `.learnings/FEATURE_REQUESTS.md` | FEAT-YYYYMMDD-NNN |
+
+### Step 3：分层流转规则（借鉴 ivangdavila/self-improving）
+
+**适用文件路径**：`memory/lessons/` 下的 lesson 文件
+
+| 层级 | 触发条件 | 流转动作 |
+|------|---------|---------|
+| HOT | 写入会话级 | 写入 `.learnings/` 或 `memory/lessons/` |
+| WARM | 30 天内未被调用 | 移动到 `memory/cold/` 目录 |
+| COLD | 90 天内未被调用 | 移出 `memory/` 归档，不再自动加载 |
+
+**冲突解决规则：**
+- project > domain > global（最具体优先）
+- 同级别：most recent wins
+- 冲突时 → 主动询问用户
+
 ## 🎯 Rule 1: 任务执行前置流程（铁律）
 
 **收到任何任务后，必须按顺序执行：**
@@ -105,7 +215,7 @@
 
 | 任务类型 | 必须查的文件 |
 |----------|--------------|
-| 选股 | frameworks/*.md |
+| 选股 | **frameworks/qdk_framework_v4.md（v4.6）**<br/>**frameworks/ztx_framework_v3.md（v3.4）**<br/>**frameworks/b1_framework_v3.md（v3.4）** |
 | 复盘 | patrol/YYYYMMDD/ 目录（上一交易日） |
 | 复盘SOP | frameworks/review_sop.md |
 | 知识库 | knowledge/总索引.md |
@@ -269,7 +379,7 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 | 脚本 | 用途 | 调用方式 |
 |------|------|---------|
 | `run_stock_selection.py` | 统一选股入口 | `python3 scripts/run_stock_selection.py [qdk\|ztx\|b1]` |
-| `sector_analysis_v4.py` | 板块效应分析 | `python3 scripts/sector_analysis_v4.py --framework [qdk\|ztx\|b1]` |
+| `sector_analysis_v4.py` | 板块效应分析（v4.3） | `python3 scripts/sector_analysis_v4.py --framework [qdk\|ztx\|b1]` |
 | `qdk_step2_fetch.py` | 启动K K线获取 | 由run_stock_selection.py调用 |
 | `qdk_step3_calc.py` | 启动K指标计算 | 由run_stock_selection.py调用 |
 | `qdk_step4_score.py` | 启动K评分 | 由run_stock_selection.py调用 |
@@ -360,18 +470,42 @@ python3 scripts/sector_analysis_v4.py --framework [qdk|ztx|b1]
 **目录**：`self-improving/`
 
 **核心文件**：
-- `memory.md` — HOT记忆（≤100行，重复3次以上的经验）
-- `corrections.md` — 纠正日志（用户纠正自动记录）
+- `memory.md` — **HOT记忆（≤50行，硬上限）**
+- `corrections.md` — **纠正日志（CRR-ID 格式）**
 - `heartbeat-state.md` — 心跳状态
 - `projects/stock-selection.md` — 选股框架学习
 - `projects/market-analysis.md` — 大盘分析学习
-- `projects/review_template.md` — 复盘报告模板
+- `archive/` — 归档（30天未用的 pattern）
+- `domains/` — 按领域分类（选股/复盘/大盘/工具）
 
-**运行规则**：
-- 每次复盘后自动触发自我反思
-- 用户纠正 → 记录到 corrections.md → 判断是否升级到 memory.md
-- 重复3次以上的经验 → 升级到 memory.md（HOT）
-- 认知更新 → 记录到对应 projects/ 文件
+### CRR 编号规则
+格式：`CRR-YYYYMMDD-NNN`
+- 每日从 001 开始，按时间顺序累加
+- 同一教训的追踪：通过 `**See Also**: CRR-YYYYMMDD-NNN` 关联
+
+### memory.md 压缩机制
+当 memory.md 超过 50 行时：
+1. 读全部内容，按 `**CRR**` 字段聚合关联的 CRR 条目
+2. 将 ≤3 次出现的 pattern 合并压缩为 1 行
+3. 将 ≥3 次出现的 pattern 标注 `**VERIFIED**`
+4. 将 ≥30 天未用的 pattern 移至 `archive/YYYY-MM/`
+5. 更新 `index.md` 的行数统计
+
+### Quarterly Distillation（每季度一次）
+1. 读 `self-improving/` 下本季度所有 CRR 条目
+2. 提炼主题：`projects/季度总结-YYYY-QX.md`
+3. 清空 `archive/`，重置计数器
+
+### 晋升规则
+| 触发条件 | 行动 |
+|---------|------|
+| 同一教训 CRR ≥3 次 | 晋升 HOT memory |
+| 某领域 pattern ≥10 条 | 新建 `domains/xxx.md` |
+| HOT memory 超 50 行 | 触发压缩 |
+
+### WAL → corrections.md 自动化（Rule W-End）
+- 每次会话结束，Session-STATE.md 的纠正条目自动归档
+- 不手动整理，不丢失任何纠正
 
 ---
 
