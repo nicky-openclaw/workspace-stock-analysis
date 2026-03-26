@@ -25,3 +25,40 @@ AGENTS.md 中定义的 WAL → SESSION-STATE.md → corrections.md + memory/ 流
 - [ ] 检查 SESSION-STATE.md 的正确处理流程
 - [ ] 确保每次会话结束自动触发 WAL 归档
 - [ ] 建立 SESSION-STATE.md 堆积内容的清理机制
+
+---
+
+## [CRR-20260326-001]
+**触发词**: 非交易日
+**错误认知**: 3/26是非交易日，无法获取3/26数据
+**正确认知**: 3/26是正常交易日，腾讯API返回了数据
+**教训**: 不要凭日期判断猜测，必须先实际验证数据
+**来源**: SESSION-STATE
+
+## [CRR-20260326-002]
+**触发词**: mx skill
+**错误认知**: mx skill不可用/不会用，用了烂的腾讯API解析
+**正确认知**: mx_finance_data可用，优先用它获取行业+涨跌数据
+**教训**: 选股复盘必须先用mx skill，备用agent-browser
+**来源**: SESSION-STATE
+
+## [CRR-20260326-003]
+**触发词**: 全部股票
+**错误认知**: 复盘要分析全部选出的股票（55只QDK + 10只ZTX）
+**正确认知**: 复盘范围=方案B，只复盘上涨股票（TOP5）
+**教训**: 复盘只聚焦上涨股票，沉淀到案例库
+**来源**: SESSION-STATE
+
+## [CRR-20260326-004]
+**触发词**: 飞书文档
+**错误认知**: 没有feishu_doc工具，无法创建云文档
+**正确认知**: 飞书官方插件自带feishu_doc，不需要单独配置
+**教训**: AGENTS.md里有feishu_doc.create/write，但工具未加载到当前session，需重启Gateway
+**来源**: SESSION-STATE
+
+## [CRR-20260326-005]
+**触发词**: TOP20
+**错误认知**: 复盘要复盘TOP20只股票
+**正确认知**: 复盘范围=QDK TOP5 + ZTX TOP5（共10只）
+**教训**: 复盘范围严格按skill文件定义执行，不自行扩大
+**来源**: SESSION-STATE
